@@ -3504,7 +3504,7 @@ function Library:CreateWindow(...)
     });
 
     local TransparencyCache = {};
-    local Toggled = true;
+    local Toggled = false;
     local Fading = false;
 
     function Library:Toggle()
@@ -3526,9 +3526,9 @@ function Library:CreateWindow(...)
                 local State = InputService.MouseIconEnabled;
 
                 local Cursor = Drawing.new('Triangle');
-                Cursor.Thickness = 0;
+                Cursor.Thickness = 1;
                 Cursor.Filled = false;
-                Cursor.Visible = false;
+                Cursor.Visible = true;
 
                 local CursorOutline = Drawing.new('Triangle');
                 CursorOutline.Thickness = 0;
