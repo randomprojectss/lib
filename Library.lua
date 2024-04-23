@@ -3504,7 +3504,7 @@ function Library:CreateWindow(...)
     });
 
     local TransparencyCache = {};
-    local Toggled = false;
+    local Toggled = true;
     local Fading = false;
 
     function Library:Toggle()
