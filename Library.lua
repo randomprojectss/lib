@@ -3519,7 +3519,7 @@ function Library:CreateWindow(...)
 
         if Toggled then
             -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
-            Outer.Visible = false;
+            Outer.Visible = true;
 
             task.spawn(function()
                 -- TODO: add cursor fade?
@@ -3527,14 +3527,14 @@ function Library:CreateWindow(...)
 
                 local Cursor = Drawing.new('Triangle');
                 Cursor.Thickness = 1;
-                Cursor.Filled = false;
+                Cursor.Filled = true;
                 Cursor.Visible = true;
 
                 local CursorOutline = Drawing.new('Triangle');
-                CursorOutline.Thickness = 0;
+                CursorOutline.Thickness = 1;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
-                CursorOutline.Visible = false;
+                CursorOutline.Visible = true;
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
@@ -3554,7 +3554,7 @@ function Library:CreateWindow(...)
                     RenderStepped:Wait();
                 end;
 
-                InputService.MouseIconEnabled = false;
+                InputService.MouseIconEnabled = State;
 
                 Cursor:Remove();
                 CursorOutline:Remove();
