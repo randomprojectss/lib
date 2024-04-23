@@ -3534,7 +3534,7 @@ function Library:CreateWindow(...)
                 CursorOutline.Thickness = 1;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
-                CursorOutline.Visible = false;
+                CursorOutline.Visible = true;
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
