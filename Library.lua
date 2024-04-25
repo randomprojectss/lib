@@ -3514,12 +3514,12 @@ function Library:CreateWindow(...)
 
         local FadeTime = Config.MenuFadeTime;
         Fading = true;
-        Toggled = false;
+        Toggled = (not Toggled);
         ModalElement.Modal = Toggled;
 
-        if Toggled == true then
+        if Toggled then
             -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
-            Outer.Visible = true;
+            Outer.Visible = false;
 
             task.spawn(function()
                 -- TODO: add cursor fade?
@@ -3534,7 +3534,7 @@ function Library:CreateWindow(...)
                 CursorOutline.Thickness = 1;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
-                CursorOutline.Visible = true;
+                CursorOutline.Visible = false;
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
