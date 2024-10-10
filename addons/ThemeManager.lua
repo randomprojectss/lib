@@ -1,4 +1,7 @@
-local httpService = game:GetService('HttpService')
+local cloneref = cloneref or function(o) return o end
+local httpService = cloneref(game:GetService('HttpService'))
+local httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+local getassetfunc = getcustomasset or getsynasset
 local ThemeManager = {} do
 	ThemeManager.Folder = 'LinoriaLibSettings'
 	-- if not isfolder(ThemeManager.Folder) then makefolder(ThemeManager.Folder) end
@@ -15,6 +18,44 @@ local ThemeManager = {} do
 		['Quartz'] 			= { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
 	}
 
+	function ApplyBackgroundVideo(webmLink)
+		if writefile == nil then return end;if readfile == nil then return end;if isfile == nil then return end
+		if ThemeManager.Library == nil then return end
+		if ThemeManager.Library.InnerVideoBackground == nil then return end
+
+		if string.sub(tostring(webmLink), -5) == ".webm" then
+			local CurrentSaved = ""
+			if isfile(ThemeManager.Folder .. '/themes/currentVideoLink.txt') then
+				CurrentSaved = readfile(ThemeManager.Folder .. '/themes/currentVideoLink.txt')
+			end
+			local VideoData = nil;
+			if CurrentSaved == tostring(webmLink) then
+				VideoData = {
+					Success = true,
+					Body = nil
+				}
+			else
+				VideoData = httprequest({
+					Url = tostring(webmLink),
+					Method = 'GET'
+				})
+			end
+			
+			if (VideoData.Success) then
+				VideoData = VideoData.Body
+				if (isfile(ThemeManager.Folder .. '/themes/currentVideo.webm') == false and VideoData ~= nil) or VideoData ~= nil then
+					writefile(ThemeManager.Folder .. '/themes/currentVideo.webm', VideoData)
+					writefile(ThemeManager.Folder .. '/themes/currentVideoLink.txt', tostring(webmLink))
+				end
+				
+				local Video = getassetfunc(ThemeManager.Folder .. '/themes/currentVideo.webm')
+				ThemeManager.Library.InnerVideoBackground.Video = Video
+				ThemeManager.Library.InnerVideoBackground.Visible = true
+				ThemeManager.Library.InnerVideoBackground:Play()
+			end
+		end
+	end
+	
 	function ThemeManager:ApplyTheme(theme)
 		local customThemeData = self:GetCustomTheme(theme)
 		local data = customThemeData or self.BuiltInThemes[theme]
@@ -22,13 +63,26 @@ local ThemeManager = {} do
 		if not data then return end
 
 		-- custom themes are just regular dictionaries instead of an array with { index, dictionary }
-
+		if self.Library.InnerVideoBackground ~= nil then
+			self.Library.InnerVideoBackground.Visible = false
+		end
+		
 		local scheme = data[2]
 		for idx, col in next, customThemeData or scheme do
-			self.Library[idx] = Color3.fromHex(col)
-			
-			if Options[idx] then
-				Options[idx]:SetValueRGB(Color3.fromHex(col))
+			if idx ~= "VideoLink" then
+				self.Library[idx] = Color3.fromHex(col)
+				
+				if getgenv().Linoria.Options[idx] then
+					getgenv().Linoria.Options[idx]:SetValueRGB(Color3.fromHex(col))
+				end
+			else
+				self.Library[idx] = col
+				
+				if getgenv().Linoria.Options[idx] then
+					getgenv().Linoria.Options[idx]:SetValue(col)
+				end
+				
+				ApplyBackgroundVideo(col)
 			end
 		end
 
@@ -37,10 +91,17 @@ local ThemeManager = {} do
 
 	function ThemeManager:ThemeUpdate()
 		-- This allows us to force apply themes without loading the themes tab :)
-		local options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+		if self.Library.InnerVideoBackground ~= nil then
+			self.Library.InnerVideoBackground.Visible = false
+		end
+		
+		local options = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor", "VideoLink" }
 		for i, field in next, options do
-			if Options and Options[field] then
-				self.Library[field] = Options[field].Value
+			if getgenv().Linoria.Options and getgenv().Linoria.Options[field] then
+				self.Library[field] = getgenv().Linoria.Options[field].Value
+				if field == "VideoLink" then
+					ApplyBackgroundVideo(getgenv().Linoria.Options[field].Value)
+				end
 			end
 		end
 
@@ -61,11 +122,11 @@ local ThemeManager = {} do
 				isDefault = false;
 			end
 		elseif self.BuiltInThemes[self.DefaultTheme] then
-		 	theme = self.DefaultTheme
+		theme = self.DefaultTheme
 		end
 
 		if isDefault then
-			Options.ThemeManager_ThemeList:SetValue(theme)
+			getgenv().Linoria.Options.ThemeManager_ThemeList:SetValue(theme)
 		else
 			self:ApplyTheme(theme)
 		end
@@ -75,13 +136,31 @@ local ThemeManager = {} do
 		writefile(self.Folder .. '/themes/default.txt', theme)
 	end
 
+	function ThemeManager:Delete(name)
+		if (not name) then
+			return false, 'no config file is selected'
+		end
+
+		local file = self.Folder .. '/themes/' .. name .. '.json'
+		if not isfile(file) then
+			file = self.Folder .. '/themes/' .. name
+			if not isfile(file) then return false, 'invalid file' end
+		end
+
+		local success, decoded = pcall(delfile, file)
+		if not success then return false, 'delete file error' end
+		
+		return true
+	end
+	
 	function ThemeManager:CreateThemeManager(groupbox)
 		groupbox:AddLabel('Background color'):AddColorPicker('BackgroundColor', { Default = self.Library.BackgroundColor });
 		groupbox:AddLabel('Main color')	:AddColorPicker('MainColor', { Default = self.Library.MainColor });
 		groupbox:AddLabel('Accent color'):AddColorPicker('AccentColor', { Default = self.Library.AccentColor });
 		groupbox:AddLabel('Outline color'):AddColorPicker('OutlineColor', { Default = self.Library.OutlineColor });
 		groupbox:AddLabel('Font color')	:AddColorPicker('FontColor', { Default = self.Library.FontColor });
-
+		groupbox:AddInput('VideoLink', { Text = '.webm Video Background (Link)', Default = self.Library.VideoLink });
+		
 		local ThemesArray = {}
 		for Name, Theme in next, self.BuiltInThemes do
 			table.insert(ThemesArray, Name)
@@ -90,41 +169,67 @@ local ThemeManager = {} do
 		table.sort(ThemesArray, function(a, b) return self.BuiltInThemes[a][1] < self.BuiltInThemes[b][1] end)
 
 		groupbox:AddDivider()
+
 		groupbox:AddDropdown('ThemeManager_ThemeList', { Text = 'Theme list', Values = ThemesArray, Default = 1 })
-
 		groupbox:AddButton('Set as default', function()
-			self:SaveDefault(Options.ThemeManager_ThemeList.Value)
-			self.Library:Notify(string.format('Set default theme to %q', Options.ThemeManager_ThemeList.Value))
+			self:SaveDefault(getgenv().Linoria.Options.ThemeManager_ThemeList.Value)
+			self.Library:Notify(string.format('Set default theme to %q', getgenv().Linoria.Options.ThemeManager_ThemeList.Value))
 		end)
 
-		Options.ThemeManager_ThemeList:OnChanged(function()
-			self:ApplyTheme(Options.ThemeManager_ThemeList.Value)
+		getgenv().Linoria.Options.ThemeManager_ThemeList:OnChanged(function()
+			self:ApplyTheme(getgenv().Linoria.Options.ThemeManager_ThemeList.Value)
 		end)
 
 		groupbox:AddDivider()
+
 		groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
-		groupbox:AddDropdown('ThemeManager_CustomThemeList', { Text = 'Custom themes', Values = self:ReloadCustomThemes(), AllowNull = true, Default = 1 })
+		groupbox:AddButton('Create theme', function() 
+			self:SaveCustomTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeName.Value)
+
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+		end)
+
 		groupbox:AddDivider()
-		
-		groupbox:AddButton('Save theme', function() 
-			self:SaveCustomTheme(Options.ThemeManager_CustomThemeName.Value)
 
-			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			Options.ThemeManager_CustomThemeList:SetValue(nil)
-		end):AddButton('Load theme', function() 
-			self:ApplyTheme(Options.ThemeManager_CustomThemeList.Value) 
+		groupbox:AddDropdown('ThemeManager_CustomThemeList', { Text = 'Custom themes', Values = self:ReloadCustomThemes(), AllowNull = true, Default = 1 })
+		groupbox:AddButton('Load theme', function() 
+			self:ApplyTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value) 
 		end)
-
-		groupbox:AddButton('Refresh list', function()
-			Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-			Options.ThemeManager_CustomThemeList:SetValue(nil)
+		groupbox:AddButton('Overwrite theme', function()
+			self:SaveCustomTheme(getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value)
 		end)
+		groupbox:AddButton('Delete theme', function()
+			local name = getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value
 
-		groupbox:AddButton('Set as default', function()
-			if Options.ThemeManager_CustomThemeList.Value ~= nil and Options.ThemeManager_CustomThemeList.Value ~= '' then
-				self:SaveDefault(Options.ThemeManager_CustomThemeList.Value)
-				self.Library:Notify(string.format('Set default theme to %q', Options.ThemeManager_CustomThemeList.Value))
+			local success, err = self:Delete(name)
+			if not success then
+				return self.Library:Notify('Failed to delete theme: ' .. err)
 			end
+
+			self.Library:Notify(string.format('Deleted theme %q', name))
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+		end)
+		groupbox:AddButton('Refresh list', function()
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
+		end)
+		groupbox:AddButton('Set as default', function()
+			if getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value ~= nil and getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value ~= '' then
+				self:SaveDefault(getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value)
+				self.Library:Notify(string.format('Set default theme to %q', getgenv().Linoria.Options.ThemeManager_CustomThemeList.Value))
+			end
+		end)
+		groupbox:AddButton('Reset default', function()
+			local success = pcall(delfile, self.Folder .. '/themes/default.txt')
+			if not success then 
+				return self.Library:Notify('Failed to reset default: delete file error')
+			end
+				
+			self.Library:Notify('Set default theme to nothing')
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
+			getgenv().Linoria.Options.ThemeManager_CustomThemeList:SetValue(nil)
 		end)
 
 		ThemeManager:LoadDefault()
@@ -133,11 +238,11 @@ local ThemeManager = {} do
 			self:ThemeUpdate()
 		end
 
-		Options.BackgroundColor:OnChanged(UpdateTheme)
-		Options.MainColor:OnChanged(UpdateTheme)
-		Options.AccentColor:OnChanged(UpdateTheme)
-		Options.OutlineColor:OnChanged(UpdateTheme)
-		Options.FontColor:OnChanged(UpdateTheme)
+		getgenv().Linoria.Options.BackgroundColor:OnChanged(UpdateTheme)
+		getgenv().Linoria.Options.MainColor:OnChanged(UpdateTheme)
+		getgenv().Linoria.Options.AccentColor:OnChanged(UpdateTheme)
+		getgenv().Linoria.Options.OutlineColor:OnChanged(UpdateTheme)
+		getgenv().Linoria.Options.FontColor:OnChanged(UpdateTheme)
 	end
 
 	function ThemeManager:GetCustomTheme(file)
@@ -162,10 +267,14 @@ local ThemeManager = {} do
 		end
 
 		local theme = {}
-		local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
+		local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor", "VideoLink" }
 
 		for _, field in next, fields do
-			theme[field] = Options[field].Value:ToHex()
+			if field == "VideoLink" then
+				theme[field] = getgenv().Linoria.Options[field].Value
+			else
+				theme[field] = getgenv().Linoria.Options[field].Value:ToHex()
+			end
 		end
 
 		writefile(self.Folder .. '/themes/' .. file .. '.json', httpService:JSONEncode(theme))
@@ -213,7 +322,6 @@ local ThemeManager = {} do
 		end
 
 		table.insert(paths, self.Folder .. '/themes')
-		table.insert(paths, self.Folder .. '/settings')
 
 		for i = 1, #paths do
 			local str = paths[i]
@@ -247,4 +355,5 @@ local ThemeManager = {} do
 	ThemeManager:BuildFolderTree()
 end
 
+getgenv().LinoriaThemeManager = ThemeManager
 return ThemeManager
