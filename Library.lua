@@ -195,12 +195,13 @@ function Library:AddToolTip(InfoStr, HoverInstance)
         BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
-        Size = UDim2.fromOffset(X + 5, Y + 4),
+        Size = UDim2.fromOffset(X + 55, Y + 4),  -- Increased width by 50 units
         ZIndex = 100,
         Parent = Library.ScreenGui,
 
         Visible = false,
     })
+
 
     local Label = Library:CreateLabel({
         Position = UDim2.fromOffset(3, 1),
