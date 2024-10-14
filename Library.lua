@@ -195,9 +195,9 @@ function Library:AddToolTip(InfoStr, HoverInstance)
         BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
-        Size = UDim2.fromOffset(X + 55, Y + 4),  -- Increased width by 50 units
-        ZIndex = 100,
-        Parent = Library.ScreenGui,
+       Size = UDim2.fromOffset(300, Y + 4),  -- Set to a fixed width
+       ZIndex = 100,
+       Parent = Library.ScreenGui,
 
         Visible = false,
     })
