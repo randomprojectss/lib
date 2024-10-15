@@ -2746,7 +2746,7 @@ do
         BackgroundColor3 = Color3.new(1, 1, 1);
         BorderSizePixel = 0;
         Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2);
+        Size = UDim2.new(100, -2, 100, -2);
         ZIndex = 202;
         Parent = WatermarkInner;
     });
@@ -2771,8 +2771,8 @@ do
 
     local WatermarkLabel = Library:CreateLabel({
         Position = UDim2.new(0, 5, 0, 0);
-        Size = UDim2.new(10, -4, 10, 0);
-        TextSize = 30;
+        Size = UDim2.new(1, -4, 1, 0);
+        TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 203;
         Parent = InnerFrame;
