@@ -189,18 +189,6 @@ function Library:MakeDraggable(Instance, Cutoff)
     end)
 end;
 
-function Library:AddToolTip(InfoStr, HoverInstance)
-    local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14);
-    local Tooltip = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor,
-        BorderColor3 = Library.OutlineColor,
-
-        Size = UDim2.fromOffset(X + 5, Y + 4),
-        ZIndex = 100,
-        Parent = Library.ScreenGui,
-
-        Visible = false,
-    })
 
     local Label = Library:CreateLabel({
         Position = UDim2.fromOffset(3, 1),
