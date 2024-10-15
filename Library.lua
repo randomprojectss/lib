@@ -630,7 +630,7 @@ do
                 BackgroundColor3 = ColorPicker.Value;
                 BorderColor3 = Library.OutlineColor;
                 BorderMode = Enum.BorderMode.Inset;
-                Size = UDim2.new(1, 0, 1, 0);
+                Size = UDim2.new(1, 10, 10, 10);
                 ZIndex = 19;
                 Parent = TransparencyBoxOuter;
             });
