@@ -1997,10 +1997,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-       local SliderOuter = Library:Create('Frame', {
+    local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(1, -4, 0, 8);  -- Changed height to 8 for a thicker outer slider
+    Size = UDim2.new(1, -4, 0, 8);  -- Thicker outer slider
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,10 +2013,37 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0);  -- Inner size remains the same to match the outer height
+    Size = UDim2.new(0.95, 0, 1, 0);  -- Inner slider made slightly smaller (95% width of the outer slider)
     ZIndex = 6;
     Parent = SliderOuter;
 });
+
+-- Add minus symbol to the left of the slider
+local MinusLabel = Library:Create('TextLabel', {
+    Text = "-";
+    Font = Enum.Font.SourceSansBold;
+    TextSize = 14;
+    TextColor3 = Color3.new(1, 1, 1);
+    BackgroundTransparency = 1;
+    Size = UDim2.new(0, 14, 0, 14);
+    Position = UDim2.new(-0.1, -10, 0.5, -7);  -- Positioned left of the slider, slightly outside
+    ZIndex = 6;
+    Parent = SliderOuter;
+});
+
+-- Add plus symbol to the right of the slider
+local PlusLabel = Library:Create('TextLabel', {
+    Text = "+";
+    Font = Enum.Font.SourceSansBold;
+    TextSize = 14;
+    TextColor3 = Color3.new(1, 1, 1);
+    BackgroundTransparency = 1;
+    Size = UDim2.new(0, 14, 0, 14);
+    Position = UDim2.new(1.05, -5, 0.5, -7);  -- Positioned right of the slider, slightly outside
+    ZIndex = 6;
+    Parent = SliderOuter;
+});
+
 
 Library:AddToRegistry(SliderInner, {
     BackgroundColor3 = 'MainColor';
