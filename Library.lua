@@ -189,18 +189,33 @@ function Library:MakeDraggable(Instance, Cutoff)
     end)
 end;
 
+function Library:AddToolTip(InfoStr, HoverInstance)
+    local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14)
+    -- Increase the offset for width by modifying the value added to X
+    local Tooltip = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor,
+        BorderColor3 = Library.OutlineColor,
+
+        Size = UDim2.fromOffset(X + 15, Y + 4), -- Increased from 5 to 15 for wider tooltip
+        ZIndex = 100,
+        Parent = Library.ScreenGui,
+
+        Visible = false,
+    })
 
     local Label = Library:CreateLabel({
         Position = UDim2.fromOffset(3, 1),
-        Size = UDim2.fromOffset(X, Y);
-        TextSize = 14;
+        Size = UDim2.fromOffset(X, Y),
+        TextSize = 14,
         Text = InfoStr,
         TextColor3 = Library.FontColor,
-        TextXAlignment = Enum.TextXAlignment.Left;
+        TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = Tooltip.ZIndex + 1,
 
-        Parent = Tooltip;
-    });
+        Parent = Tooltip,
+    })
+end
+
 
     Library:AddToRegistry(Tooltip, {
         BackgroundColor3 = 'MainColor';
@@ -2048,17 +2063,14 @@ Library:AddToRegistry(SliderInner, {
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-function Slider:Display()
+       function Slider:Display()
     local Suffix = Info.Suffix or '';
 
-    -- Display only the current value
-    DisplayLabel.Text = string.format('%s', Slider.Value .. Suffix);  -- Show only the current value
+    -- Display only the maximum value above the slider
+    DisplayLabel.Text = string.format('%s', Slider.Max .. Suffix);
 
-    -- Make the text smaller
-    DisplayLabel.TextSize = 14  -- Adjust this value to change text size
-
-    -- Move the text higher and significantly more to the right above the slider
-    DisplayLabel.Position = UDim2.new(0.45, 0, -2.2, 0)  -- Adjusted for higher position and significantly more to the right
+    -- Move the text above the slider
+    DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Adjust Y-axis to position above the slider
     DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
     -- Update the slider fill and border visibility
@@ -2066,11 +2078,6 @@ function Slider:Display()
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
-
-
-
-
-
 
 
         function Slider:OnChanged(Func)
