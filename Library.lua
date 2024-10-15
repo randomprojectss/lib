@@ -2956,7 +2956,9 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
+    
+    -- Make the outer frame wider by increasing the width value
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(700, 600) end -- Changed width from 550 to 700
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2980,20 +2982,12 @@ function Library:CreateWindow(...)
 
     Library:MakeDraggable(Outer, 25);
 
-    local Inner = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.AccentColor;
-        BorderMode = Enum.BorderMode.Inset;
-        Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2);
-        ZIndex = 1;
-        Parent = Outer;
-    });
+    -- Removed the Inner frame creation entirely
+    -- The Inner frame setup code has been deleted
 
-    Library:AddToRegistry(Inner, {
-        BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'AccentColor';
-    });
+    -- If you were using Inner in any registry or elsewhere, ensure to update that logic
+end
+
 
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, 7, 0, 0);
