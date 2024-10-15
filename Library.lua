@@ -2060,14 +2060,17 @@ Library:AddToRegistry(SliderInner, {
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-       function Slider:Display()
+function Slider:Display()
     local Suffix = Info.Suffix or '';
 
-    -- Display only the maximum value above the slider
-    DisplayLabel.Text = string.format('%s', Slider.Max .. Suffix);
+    -- Display only the current value
+    DisplayLabel.Text = string.format('%s', Slider.Value .. Suffix);  -- Show only the current value
 
-    -- Move the text above the slider
-    DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Adjust Y-axis to position above the slider
+    -- Make the text smaller
+    DisplayLabel.TextSize = 14  -- Adjust this value to change text size
+
+    -- Move the text higher and significantly more to the right above the slider
+    DisplayLabel.Position = UDim2.new(0.45, 0, -2.2, 0)  -- Adjusted for higher position and significantly more to the right
     DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
     -- Update the slider fill and border visibility
@@ -2075,6 +2078,11 @@ Library:AddToRegistry(SliderInner, {
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
+
+
+
+
+
 
 
         function Slider:OnChanged(Func)
