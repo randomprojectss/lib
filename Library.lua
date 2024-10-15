@@ -3030,7 +3030,6 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
     
-end
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
