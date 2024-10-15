@@ -1987,31 +1987,31 @@ do
             Groupbox:AddBlank(3);
         end
 
-        local SliderOuter = Library:Create('Frame', {
-            BackgroundColor3 = Color3.new(0, 0, 0);
-            BorderColor3 = Color3.new(0, 0, 0);
-            Size = UDim2.new(1, -4, 0, 13);
-            ZIndex = 5;
-            Parent = Container;
-        });
+    local SliderOuter = Library:Create('Frame', {
+    BackgroundColor3 = Color3.new(0, 0, 0);
+    BorderColor3 = Color3.new(0, 0, 0);
+    Size = UDim2.new(1, -4, 0, 5);  -- Change height to 5 for thinner outer slider
+    ZIndex = 5;
+    Parent = Container;
+});
 
-        Library:AddToRegistry(SliderOuter, {
-            BorderColor3 = 'Black';
-        });
+Library:AddToRegistry(SliderOuter, {
+    BorderColor3 = 'Black';
+});
 
-        local SliderInner = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderColor3 = Library.OutlineColor;
-            BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(1, 0, 1, 0);
-            ZIndex = 6;
-            Parent = SliderOuter;
-        });
+local SliderInner = Library:Create('Frame', {
+    BackgroundColor3 = Library.MainColor;
+    BorderColor3 = Library.OutlineColor;
+    BorderMode = Enum.BorderMode.Inset;
+    Size = UDim2.new(1, 0, 1, 0);  -- Keep inner size matching the outer height
+    ZIndex = 6;
+    Parent = SliderOuter;
+});
 
-        Library:AddToRegistry(SliderInner, {
-            BackgroundColor3 = 'MainColor';
-            BorderColor3 = 'OutlineColor';
-        });
+Library:AddToRegistry(SliderInner, {
+    BackgroundColor3 = 'MainColor';
+    BorderColor3 = 'OutlineColor';
+});
 
         local Fill = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
@@ -2072,7 +2072,7 @@ do
                 DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix);
             end
 
-            local X = math.ceil(Library:MapValue(Slider.Value, Slider.Min, Slider.Max, 0, Slider.MaxSize));
+            local X = math.ceil(Library:MapValue(Slider.Value, Slider.Min, Slider.Max, 1, Slider.MaxSize));
             Fill.Size = UDim2.new(0, X, 1, 0);
 
             HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
