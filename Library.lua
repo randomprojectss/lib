@@ -1431,10 +1431,11 @@ do
     local Outer = Library:Create('Frame', {
         BackgroundColor3 = Color3.new(0, 0, 0);
         BorderColor3 = Color3.new(0, 0, 0);
-        Size = UDim2.new(1, -4, 0, 18); -- Adjusted height to 18
+        Size = UDim2.new(1, -4, 0, 1); -- Adjusted height to 1
         ZIndex = 5;
     });
 end
+
 
 
             local Inner = Library:Create('Frame', {
