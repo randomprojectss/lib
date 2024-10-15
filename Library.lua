@@ -1997,10 +1997,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-    local SliderOuter = Library:Create('Frame', {
+      local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(0.9, -4, 0, 8);  -- Narrower width, keeping the height at 8 for thickness
+    Size = UDim2.new(0.8, -4, 0, 8);  -- Reduced width to 0.8 to make it narrower, height remains 8 for thickness
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,8 +2013,7 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, -2, 1, -2);  -- Slightly smaller inner slider, maintaining thickness
-    Position = UDim2.new(0, 1, 0, 1);  -- Centering inside the outer frame with a small 1px margin
+    Size = UDim2.new(1, 0, 1, 0);  -- Keeps inner size the same as outer for proper thickness
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2027,7 +2026,7 @@ Library:AddToRegistry(SliderInner, {
 local Fill = Library:Create('Frame', {
     BackgroundColor3 = Library.AccentColor;
     BorderColor3 = Library.AccentColorDark;
-    Size = UDim2.new(0, 0, 1, 0);  -- Horizontal fill that will expand based on slider value
+    Size = UDim2.new(0, 0, 1, 0);  -- Fills horizontally as the slider moves
     ZIndex = 7;
     Parent = SliderInner;
 });
@@ -2037,32 +2036,31 @@ Library:AddToRegistry(Fill, {
     BorderColor3 = 'AccentColorDark';
 });
 
+local HideBorderRight = Library:Create('Frame', {
+    BackgroundColor3 = Library.AccentColor;
+    BorderSizePixel = 0;
+    Position = UDim2.new(1, 0, 0, 0);  -- Positioned at the end of the fill to hide the border on the right
+    Size = UDim2.new(0, 1, 1, 0);
+    ZIndex = 8;
+    Parent = Fill;
+});
 
-        local HideBorderRight = Library:Create('Frame', {
-            BackgroundColor3 = Library.AccentColor;
-            BorderSizePixel = 0;
-            Position = UDim2.new(1, 0, 0, 0);
-            Size = UDim2.new(0, 1, 1, 0);
-            ZIndex = 8;
-            Parent = Fill;
-        });
+Library:AddToRegistry(HideBorderRight, {
+    BackgroundColor3 = 'AccentColor';
+});
 
-        Library:AddToRegistry(HideBorderRight, {
-            BackgroundColor3 = 'AccentColor';
-        });
+local DisplayLabel = Library:CreateLabel({
+    Size = UDim2.new(1, 0, 1, 0);
+    TextSize = 14;
+    Text = 'Infinite';
+    ZIndex = 9;
+    Parent = SliderInner;
+});
 
-        local DisplayLabel = Library:CreateLabel({
-            Size = UDim2.new(1, 0, 1, 0);
-            TextSize = 14;
-            Text = 'Infinite';
-            ZIndex = 9;
-            Parent = SliderInner;
-        });
-
-        Library:OnHighlight(SliderOuter, SliderOuter,
-            { BorderColor3 = 'AccentColor' },
-            { BorderColor3 = 'Black' }
-        );
+Library:OnHighlight(SliderOuter, SliderOuter,
+    { BorderColor3 = 'AccentColor' },
+    { BorderColor3 = 'Black' }
+);
 
         if type(Info.Tooltip) == 'string' then
             Library:AddToolTip(Info.Tooltip, SliderOuter)
