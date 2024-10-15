@@ -2497,17 +2497,17 @@ end
             Dropdown:BuildDropdownList();
         end;
 
-        function Dropdown:OpenDropdown()
-            ListOuter.Visible = true;
-            Library.OpenedFrames[ListOuter] = true;
-            DropdownArrow.Rotation = 180;
-        end;
+     function Dropdown:OpenDropdown()
+    ListOuter.Visible = true;
+    Library.OpenedFrames[ListOuter] = true;
+    DropdownArrow.Text = '-'; -- Change to minus sign when dropdown is open
+end;
 
-        function Dropdown:CloseDropdown()
-            ListOuter.Visible = false;
-            Library.OpenedFrames[ListOuter] = nil;
-            DropdownArrow.Rotation = 0;
-        end;
+function Dropdown:CloseDropdown()
+    ListOuter.Visible = false;
+    Library.OpenedFrames[ListOuter] = nil;
+    DropdownArrow.Text = '+'; -- Change back to plus sign when dropdown is closed
+end;
 
         function Dropdown:OnChanged(Func)
             Dropdown.Changed = Func;
