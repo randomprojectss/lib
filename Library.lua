@@ -2985,10 +2985,7 @@ function Library:CreateWindow(...)
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 1, 0, 1);
-        -- Make the inner frame significantly larger
-        Size = UDim2.new(1, -2, 1, -2); -- Keep it to fill the outer frame but make sure it has ample size
-        -- Alternatively, specify a much larger size if desired
-        -- Size = UDim2.fromOffset(700, 700); -- Uncomment this for fixed size
+        Size = UDim2.new(1, -2, 1, -2);
         ZIndex = 1;
         Parent = Outer;
     });
@@ -2997,9 +2994,6 @@ function Library:CreateWindow(...)
         BackgroundColor3 = 'MainColor';
         BorderColor3 = 'AccentColor';
     });
-end
-
-
 
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, 7, 0, 0);
