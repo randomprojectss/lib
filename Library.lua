@@ -2720,7 +2720,23 @@ do
         Parent = Library.NotificationArea;
     });
 
-    
+    local WatermarkOuter = Library:Create('Frame', {
+        BorderColor3 = Color3.new(0, 0, 0);
+        Position = UDim2.new(0, 100, 0, -25);
+        Size = UDim2.new(0, 213, 0, 20);
+        ZIndex = 200;
+        Visible = false;
+        Parent = ScreenGui;
+    });
+
+    local WatermarkInner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.AccentColor;
+        BorderMode = Enum.BorderMode.Inset;
+        Size = UDim2.new(1, 0, 1, 0);
+        ZIndex = 201;
+        Parent = WatermarkOuter;
+    });
 
     Library:AddToRegistry(WatermarkInner, {
         BorderColor3 = 'AccentColor';
@@ -2755,8 +2771,8 @@ do
 
     local WatermarkLabel = Library:CreateLabel({
         Position = UDim2.new(0, 5, 0, 0);
-        Size = UDim2.new(1, -4, 1, 0);
-        TextSize = 14;
+        Size = UDim2.new(10, -4, 10, 0);
+        TextSize = 30;
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 203;
         Parent = InnerFrame;
