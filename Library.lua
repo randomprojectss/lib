@@ -2956,7 +2956,8 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(600, 600) end -- Adjust width as needed
+    -- Increase the width of the window
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(750, 700) end -- Width: 750, Height: 700
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2967,7 +2968,6 @@ function Library:CreateWindow(...)
         Tabs = {};
     };
 
-    -- Only create the outer frame (no inner frame)
     local Outer = Library:Create('Frame', {
         AnchorPoint = Config.AnchorPoint,
         BackgroundColor3 = Color3.new(0, 0, 0);
@@ -2981,24 +2981,37 @@ function Library:CreateWindow(...)
 
     Library:MakeDraggable(Outer, 25);
 
-    -- Create a window label directly on the outer frame
+    local Inner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.AccentColor;
+        BorderMode = Enum.BorderMode.Inset;
+        Position = UDim2.new(0, 1, 0, 1);
+        Size = UDim2.new(1, -2, 1, -2); -- Keeps the inner frame proportional to the outer frame
+        ZIndex = 1;
+        Parent = Outer;
+    });
+
+    Library:AddToRegistry(Inner, {
+        BackgroundColor3 = 'MainColor';
+        BorderColor3 = 'AccentColor';
+    });
+
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, 7, 0, 0);
         Size = UDim2.new(0, 0, 0, 25);
         Text = Config.Title or '';
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 1;
-        Parent = Outer;
+        Parent = Inner;
     });
 
-    -- Main outer section (no inner frame)
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33); -- Slightly wider but same height
+        Size = UDim2.new(1, -16, 1, -33); -- Wider to fit the inner frame
         ZIndex = 1;
-        Parent = Outer;
+        Parent = Inner;
     });
 
     Library:AddToRegistry(MainSectionOuter, {
@@ -3006,7 +3019,17 @@ function Library:CreateWindow(...)
         BorderColor3 = 'OutlineColor';
     });
 
-    -- Additional elements (if needed) should be updated similarly to fit within the wider layout
+    local MainSectionInner = Library:Create('Frame', {
+        BackgroundColor3 = Library.BackgroundColor;
+        BorderColor3 = Color3.new(0, 0, 0);
+        BorderMode = Enum.BorderMode.Inset;
+        -- Inner section size matches the outer section
+        Position = UDim2.new(0, 0, 0, 0);
+        Size = UDim2.new(1, 0, 1, 0); -- Fill the entire outer section
+        ZIndex = 1;
+        Parent = MainSectionOuter;
+    });
+    
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
