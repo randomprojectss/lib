@@ -1997,10 +1997,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-      local SliderOuter = Library:Create('Frame', {
+    local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(0.9, -4, 0, 6);  -- Made the outer slider narrower with a height of 6
+    Size = UDim2.new(0.9, -4, 0, 8);  -- Narrower width, keeping the height at 8 for thickness
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,8 +2013,8 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, -2, 1, -2);  -- Inner size adjusted to be slightly smaller, fitting perfectly inside outer slider
-    Position = UDim2.new(0, 1, 0, 1);  -- Centered inside outer slider with a 1px border
+    Size = UDim2.new(1, -2, 1, -2);  -- Slightly smaller inner slider, maintaining thickness
+    Position = UDim2.new(0, 1, 0, 1);  -- Centering inside the outer frame with a small 1px margin
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2027,7 +2027,7 @@ Library:AddToRegistry(SliderInner, {
 local Fill = Library:Create('Frame', {
     BackgroundColor3 = Library.AccentColor;
     BorderColor3 = Library.AccentColorDark;
-    Size = UDim2.new(0, 0, 1, 0);  -- Will expand horizontally as slider is adjusted
+    Size = UDim2.new(0, 0, 1, 0);  -- Horizontal fill that will expand based on slider value
     ZIndex = 7;
     Parent = SliderInner;
 });
