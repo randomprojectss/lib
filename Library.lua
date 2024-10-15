@@ -1427,16 +1427,13 @@ do
         local Groupbox = self;
         local Container = Groupbox.Container;
 
-       local function CreateBaseButton(Button)
-    local Outer = Library:Create('Frame', {
-        BackgroundColor3 = Color3.new(0, 0, 0);
-        BorderColor3 = Color3.new(0, 0, 0);
-        Size = UDim2.new(1, -4, 0, 1); -- Adjusted height to 1
-        ZIndex = 5;
-    });
-end
-
-
+        local function CreateBaseButton(Button)
+            local Outer = Library:Create('Frame', {
+                BackgroundColor3 = Color3.new(0, 0, 0);
+                BorderColor3 = Color3.new(0, 0, 0);
+                Size = UDim2.new(1, -4, 0, 20);
+                ZIndex = 5;
+            });
 
             local Inner = Library:Create('Frame', {
                 BackgroundColor3 = Library.MainColor;
