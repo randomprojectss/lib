@@ -2000,7 +2000,7 @@ do
       local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(0.8, -4, 0, 8);  -- Adjusted width to 0.8 for narrower slider, height remains 8 for thickness
+    Size = UDim2.new(1, -4, 0, 8);  -- Full width minus a small offset for padding, height of 8 for thickness
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,7 +2013,7 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0);  -- Matches the outer slider for perfect alignment
+    Size = UDim2.new(1, 0, 1, 0);  -- Matches the size of SliderOuter, filling it completely
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2026,7 +2026,7 @@ Library:AddToRegistry(SliderInner, {
 local Fill = Library:Create('Frame', {
     BackgroundColor3 = Library.AccentColor;
     BorderColor3 = Library.AccentColorDark;
-    Size = UDim2.new(0, 0, 1, 0);  -- Initially 0 width, will fill based on slider movement
+    Size = UDim2.new(0, 0, 1, 0);  -- Starts at 0 width, will expand dynamically
     ZIndex = 7;
     Parent = SliderInner;
 });
@@ -2039,8 +2039,8 @@ Library:AddToRegistry(Fill, {
 local HideBorderRight = Library:Create('Frame', {
     BackgroundColor3 = Library.AccentColor;
     BorderSizePixel = 0;
-    Position = UDim2.new(1, -1, 0, 0);  -- Adjusted to ensure it stays at the right edge, without overflowing
-    Size = UDim2.new(0, 1, 1, 0);
+    Position = UDim2.new(1, -1, 0, 0);  -- Adjusted to stick exactly to the right edge
+    Size = UDim2.new(0, 1, 1, 0);  -- This will hide the right border without overflowing
     ZIndex = 8;
     Parent = Fill;
 });
@@ -2048,6 +2048,25 @@ local HideBorderRight = Library:Create('Frame', {
 Library:AddToRegistry(HideBorderRight, {
     BackgroundColor3 = 'AccentColor';
 });
+
+local DisplayLabel = Library:CreateLabel({
+    Size = UDim2.new(1, 0, 1, 0);
+    TextSize = 14;
+    Text = 'Infinite';
+    ZIndex = 9;
+    Parent = SliderInner;
+});
+
+Library:OnHighlight(SliderOuter, SliderOuter,
+    { BorderColor3 = 'AccentColor' },
+    { BorderColor3 = 'Black' }
+);
+
+-- Function to update fill based on slider position
+local function UpdateSliderFill(percentage)
+    Fill.Size = UDim2.new(percentage, 0, 1, 0);  -- Set the fill to a percentage of the full width
+end
+
 
 local DisplayLabel = Library:CreateLabel({
     Size = UDim2.new(1, 0, 1, 0);
