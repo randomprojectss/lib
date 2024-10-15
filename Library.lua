@@ -2241,14 +2241,14 @@ end
             Parent = DropdownInner;
         });
 
-     local DropdownArrow = Library:Create('TextLabel', {
+  local DropdownArrow = Library:Create('TextLabel', { -- Change ImageLabel to TextLabel
     AnchorPoint = Vector2.new(0, 0.5);
     BackgroundTransparency = 1;
     Position = UDim2.new(1, -16, 0.5, 0);
-    Size = UDim2.new(0, 12, 0, 12);
-    Text = '+'; -- Use a plus sign as the text
-    TextColor3 = Color3.fromRGB(255, 255, 255); -- Set text color to white or any desired color
-    TextScaled = true; -- Scale the text to fit
+    Size = UDim2.new(0, 20, 0, 12); -- Adjust width here
+    Text = '+'; -- Start with a plus sign
+    TextSize = 16; -- Adjust text size for wider appearance
+    TextColor3 = Color3.new(1, 1, 1); -- Change this to your desired color
     ZIndex = 8;
     Parent = DropdownInner;
 });
@@ -2497,7 +2497,7 @@ end
             Dropdown:BuildDropdownList();
         end;
 
-     function Dropdown:OpenDropdown()
+    function Dropdown:OpenDropdown()
     ListOuter.Visible = true;
     Library.OpenedFrames[ListOuter] = true;
     DropdownArrow.Text = '-'; -- Change to minus sign when dropdown is open
@@ -2508,6 +2508,7 @@ function Dropdown:CloseDropdown()
     Library.OpenedFrames[ListOuter] = nil;
     DropdownArrow.Text = '+'; -- Change back to plus sign when dropdown is closed
 end;
+
 
         function Dropdown:OnChanged(Func)
             Dropdown.Changed = Func;
