@@ -457,31 +457,29 @@ do
         -- There was some issue which caused RelativeOffset to be way off
         -- Thus the color picker would never show
 
-     local PickerFrameOuter = Library:Create('Frame', {
-    Name = 'Color';
-    BackgroundColor3 = Color3.new(1, 1, 1);
-    BorderColor3 = Color3.new(0, 0, 0);
-    Position = UDim2.fromOffset(DisplayFrame.AbsolutePosition.X, DisplayFrame.AbsolutePosition.Y + 18),
-    -- Increase the width and height significantly
-    Size = UDim2.fromOffset(400, Info.Transparency and 400 or 350); -- Changed dimensions here
-    Visible = false;
-    ZIndex = 15;
-    Parent = ScreenGui,
-})
+        local PickerFrameOuter = Library:Create('Frame', {
+            Name = 'Color';
+            BackgroundColor3 = Color3.new(1, 1, 1);
+            BorderColor3 = Color3.new(0, 0, 0);
+            Position = UDim2.fromOffset(DisplayFrame.AbsolutePosition.X, DisplayFrame.AbsolutePosition.Y + 18),
+            Size = UDim2.fromOffset(230, Info.Transparency and 271 or 253);
+            Visible = false;
+            ZIndex = 15;
+            Parent = ScreenGui,
+        });
 
-DisplayFrame:GetPropertyChangedSignal('AbsolutePosition'):Connect(function()
-    PickerFrameOuter.Position = UDim2.fromOffset(DisplayFrame.AbsolutePosition.X, DisplayFrame.AbsolutePosition.Y + 18);
-end)
+        DisplayFrame:GetPropertyChangedSignal('AbsolutePosition'):Connect(function()
+            PickerFrameOuter.Position = UDim2.fromOffset(DisplayFrame.AbsolutePosition.X, DisplayFrame.AbsolutePosition.Y + 18);
+        end)
 
-local PickerFrameInner = Library:Create('Frame', {
-    BackgroundColor3 = Library.BackgroundColor;
-    BorderColor3 = Library.OutlineColor;
-    BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0); -- This will fill the outer frame
-    ZIndex = 16;
-    Parent = PickerFrameOuter,
-});
-
+        local PickerFrameInner = Library:Create('Frame', {
+            BackgroundColor3 = Library.BackgroundColor;
+            BorderColor3 = Library.OutlineColor;
+            BorderMode = Enum.BorderMode.Inset;
+            Size = UDim2.new(1, 0, 1, 0);
+            ZIndex = 16;
+            Parent = PickerFrameOuter;
+        });
 
         local Highlight = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
