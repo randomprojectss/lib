@@ -1986,31 +1986,31 @@ do
             Groupbox:AddBlank(3);
         end
 
-        local SliderOuter = Library:Create('Frame', {
-            BackgroundColor3 = Color3.new(0, 0, 0);
-            BorderColor3 = Color3.new(0, 0, 0);
-            Size = UDim2.new(1, -4, 0, 13);
-            ZIndex = 5;
-            Parent = Container;
-        });
+       local SliderOuter = Library:Create('Frame', {
+    BackgroundColor3 = Color3.new(0, 0, 0);
+    BorderColor3 = Color3.new(0, 0, 0);
+    Size = UDim2.new(1, -4, 0, 8);  -- Changed height to 8 for a thicker outer slider
+    ZIndex = 5;
+    Parent = Container;
+});
 
-        Library:AddToRegistry(SliderOuter, {
-            BorderColor3 = 'Black';
-        });
+Library:AddToRegistry(SliderOuter, {
+    BorderColor3 = 'Black';
+});
 
-        local SliderInner = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderColor3 = Library.OutlineColor;
-            BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(1, 0, 1, 0);
-            ZIndex = 6;
-            Parent = SliderOuter;
-        });
+local SliderInner = Library:Create('Frame', {
+    BackgroundColor3 = Library.MainColor;
+    BorderColor3 = Library.OutlineColor;
+    BorderMode = Enum.BorderMode.Inset;
+    Size = UDim2.new(1, 0, 1, 0);  -- Inner size remains the same to match the outer height
+    ZIndex = 6;
+    Parent = SliderOuter;
+});
 
-        Library:AddToRegistry(SliderInner, {
-            BackgroundColor3 = 'MainColor';
-            BorderColor3 = 'OutlineColor';
-        });
+Library:AddToRegistry(SliderInner, {
+    BackgroundColor3 = 'MainColor';
+    BorderColor3 = 'OutlineColor';
+});
 
         local Fill = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
