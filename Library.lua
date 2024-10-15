@@ -2967,15 +2967,29 @@ function Library:CreateWindow(...)
         Tabs = {};
     };
 
-    -- Remove the outer frame and use only the inner frame
+    -- Outer frame, but it's invisible now
+    local Outer = Library:Create('Frame', {
+        AnchorPoint = Config.AnchorPoint,
+        BackgroundTransparency = 1, -- Make the frame invisible
+        BorderSizePixel = 0;
+        Position = Config.Position,
+        Size = Config.Size,
+        Visible = false; -- Keep the outer frame invisible
+        ZIndex = 1;
+        Parent = ScreenGui;
+    });
+
+    Library:MakeDraggable(Outer, 25);
+
+    -- Inner frame (visible)
     local Inner = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
-        Position = Config.Position,
-        Size = Config.Size,
+        Position = UDim2.new(0, 1, 0, 1);
+        Size = UDim2.new(1, -2, 1, -2);
         ZIndex = 1;
-        Parent = ScreenGui;
+        Parent = Outer;
     });
 
     Library:AddToRegistry(Inner, {
@@ -2993,7 +3007,7 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
-    -- Main section connected to the inner frame (no outer frame)
+    -- Main section connected to the inner frame
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
@@ -3007,6 +3021,8 @@ function Library:CreateWindow(...)
         BackgroundColor3 = 'BackgroundColor';
         BorderColor3 = 'OutlineColor';
     });
+end
+
     
 
     Library:AddToRegistry(MainSectionInner, {
