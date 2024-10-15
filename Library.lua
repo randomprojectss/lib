@@ -195,13 +195,12 @@ function Library:AddToolTip(InfoStr, HoverInstance)
         BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
-       Size = UDim2.fromOffset(300, Y + 4),  -- Set to a fixed width
-       ZIndex = 100,
-       Parent = Library.ScreenGui,
+        Size = UDim2.fromOffset(X + 5, Y + 4),
+        ZIndex = 100,
+        Parent = Library.ScreenGui,
 
         Visible = false,
     })
-
 
     local Label = Library:CreateLabel({
         Position = UDim2.fromOffset(3, 1),
@@ -1965,7 +1964,7 @@ do
             Min = Info.Min;
             Max = Info.Max;
             Rounding = Info.Rounding;
-            MaxSize = 2;
+            MaxSize = 232;
             Type = 'Slider';
             Callback = Info.Callback or function(Value) end;
         };
@@ -1987,10 +1986,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-    local SliderOuter = Library:Create('Frame', {
+       local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(1, -4, 0, 5);  -- Change height to 5 for thinner outer slider
+    Size = UDim2.new(1, -4, 0, 8);  -- Changed height to 8 for a thicker outer slider
     ZIndex = 5;
     Parent = Container;
 });
@@ -2003,7 +2002,7 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0);  -- Keep inner size matching the outer height
+    Size = UDim2.new(1, 0, 1, 0);  -- Inner size remains the same to match the outer height
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2061,7 +2060,7 @@ Library:AddToRegistry(SliderInner, {
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-      function Slider:Display()
+       function Slider:Display()
     local Suffix = Info.Suffix or '';
 
     -- Display only the maximum value above the slider
@@ -2076,8 +2075,6 @@ Library:AddToRegistry(SliderInner, {
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
-
-
 
 
         function Slider:OnChanged(Func)
