@@ -2063,11 +2063,14 @@ Library:AddToRegistry(SliderInner, {
 function Slider:Display()
     local Suffix = Info.Suffix or '';
 
-    -- Display only the maximum value above the slider
-    DisplayLabel.Text = string.format('%s', Slider.Max .. Suffix);
+    -- Display the current value and the maximum value
+    DisplayLabel.Text = string.format('%s / %s', Slider.Value .. Suffix, Slider.Max .. Suffix);
+
+    -- Make the text smaller
+    DisplayLabel.TextSize = 14  -- Adjust this value to change text size
 
     -- Move the text higher above the slider
-    DisplayLabel.Position = UDim2.new(0.5, 0, -1, 0)  -- Adjust the Y-axis (-1 moves it higher)
+    DisplayLabel.Position = UDim2.new(0.5, 0, -1, 0)  -- Adjust Y-axis position to move it higher
     DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
     -- Update the slider fill and border visibility
@@ -2075,6 +2078,7 @@ function Slider:Display()
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
+
 
 
         function Slider:OnChanged(Func)
