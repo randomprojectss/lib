@@ -2064,8 +2064,8 @@ Library:AddToRegistry(SliderInner, {
       function Slider:Display()
     local Suffix = Info.Suffix or '';
 
-    -- Display current value and maximum value above the slider
-    DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix);
+    -- Display only the maximum value above the slider
+    DisplayLabel.Text = string.format('%s', Slider.Max .. Suffix);
 
     -- Move the text above the slider
     DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Adjust Y-axis to position above the slider
@@ -2076,6 +2076,7 @@ Library:AddToRegistry(SliderInner, {
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
+
 
 
 
