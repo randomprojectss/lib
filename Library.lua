@@ -434,13 +434,14 @@ do
         ColorPicker:SetHSVFromRGB(ColorPicker.Value);
 
         local DisplayFrame = Library:Create('Frame', {
-            BackgroundColor3 = ColorPicker.Value;
-            BorderColor3 = Library:GetDarkerColor(ColorPicker.Value);
-            BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(0, 28, 0, 14);
-            ZIndex = 6;
-            Parent = ToggleLabel;
-        });
+    BackgroundColor3 = ColorPicker.Value;
+    BorderColor3 = Library:GetDarkerColor(ColorPicker.Value);
+    BorderMode = Enum.BorderMode.Inset;
+    Size = UDim2.new(0, 40, 0, 14); -- Adjusted width to 40
+    ZIndex = 6;
+    Parent = ToggleLabel;
+});
+
 
         -- Transparency image taken from https://github.com/matas3535/SplixPrivateDrawingLibrary/blob/main/Library.lua cus i'm lazy
         local CheckerFrame = Library:Create('ImageLabel', {
