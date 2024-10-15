@@ -2985,7 +2985,7 @@ function Library:CreateWindow(...)
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2);
+        Size = UDim2.new(1000, -2, 100, -2);
         ZIndex = 1;
         Parent = Outer;
     });
