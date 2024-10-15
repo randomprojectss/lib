@@ -190,13 +190,12 @@ function Library:MakeDraggable(Instance, Cutoff)
 end;
 
 function Library:AddToolTip(InfoStr, HoverInstance)
-    local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14)
-    -- Increase the offset for width by modifying the value added to X
+    local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14);
     local Tooltip = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
-        Size = UDim2.fromOffset(X + 15, Y + 4), -- Increased from 5 to 15 for wider tooltip
+        Size = UDim2.fromOffset(X + 5, Y + 4),
         ZIndex = 100,
         Parent = Library.ScreenGui,
 
@@ -205,17 +204,15 @@ function Library:AddToolTip(InfoStr, HoverInstance)
 
     local Label = Library:CreateLabel({
         Position = UDim2.fromOffset(3, 1),
-        Size = UDim2.fromOffset(X, Y),
-        TextSize = 14,
+        Size = UDim2.fromOffset(X, Y);
+        TextSize = 14;
         Text = InfoStr,
         TextColor3 = Library.FontColor,
-        TextXAlignment = Enum.TextXAlignment.Left,
+        TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = Tooltip.ZIndex + 1,
 
-        Parent = Tooltip,
-    })
-end
-
+        Parent = Tooltip;
+    });
 
     Library:AddToRegistry(Tooltip, {
         BackgroundColor3 = 'MainColor';
