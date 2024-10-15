@@ -16,13 +16,12 @@ local ThemeManager = {} do
 	}
 
 	function ThemeManager:ApplyTheme(theme)
-		local customThemeData = self:GetCustomTheme(theme)
-		local data = customThemeData or self.BuiltInThemes[theme]
+		local data = self.BuiltInThemes[theme]
 
 		if not data then return end
 
 		local scheme = data[2]
-		for idx, col in next, customThemeData or scheme do
+		for idx, col in next, scheme do
 			self.Library[idx] = Color3.fromHex(col)
 			
 			if Options[idx] then
@@ -94,8 +93,6 @@ local ThemeManager = {} do
 			self:ApplyTheme(Options.ThemeManager_ThemeList.Value)
 		end)
 
-		groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
-
 		ThemeManager:LoadDefault()
 
 		local function UpdateTheme()
@@ -107,22 +104,6 @@ local ThemeManager = {} do
 		Options.AccentColor:OnChanged(UpdateTheme)
 		Options.OutlineColor:OnChanged(UpdateTheme)
 		Options.FontColor:OnChanged(UpdateTheme)
-	end
-
-	function ThemeManager:GetCustomTheme(file)
-		local path = self.Folder .. '/themes/' .. file
-		if not isfile(path) then
-			return nil
-		end
-
-		local data = readfile(path)
-		local success, decoded = pcall(httpService.JSONDecode, httpService, data)
-		
-		if not success then
-			return nil
-		end
-
-		return decoded
 	end
 
 	function ThemeManager:SetLibrary(lib)
