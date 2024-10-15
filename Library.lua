@@ -2069,8 +2069,8 @@ function Slider:Display()
     -- Make the text smaller
     DisplayLabel.TextSize = 14  -- Adjust this value to change text size
 
-    -- Move the text higher and slightly to the right above the slider
-    DisplayLabel.Position = UDim2.new(0.35, 0, -2.2, 0)  -- Adjusted for higher position and slightly more to the right
+    -- Move the text higher and more to the right above the slider
+    DisplayLabel.Position = UDim2.new(0.4, 0, -2.2, 0)  -- Adjusted for higher position and more to the right
     DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
     -- Update the slider fill and border visibility
@@ -2078,6 +2078,7 @@ function Slider:Display()
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
+
 
 
 
