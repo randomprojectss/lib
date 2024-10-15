@@ -2956,7 +2956,8 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
+    -- Increase the width of the window
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(750, 700) end -- Width: 750, Height: 700
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2980,22 +2981,15 @@ function Library:CreateWindow(...)
 
     Library:MakeDraggable(Outer, 25);
 
-   local Inner = Library:Create('Frame', {
-    BackgroundColor3 = Library.MainColor;
-    BorderColor3 = Library.AccentColor;
-    BorderMode = Enum.BorderMode.Inset;
-    Position = UDim2.new(0, 1, 0, 1);
-    -- Make the inner frame a bit wider by adjusting the width value
-    Size = UDim2.new(1, -10, 1, -2); -- Adjusted from -2 to -10 for width
-    ZIndex = 1;
-    Parent = Outer;
-});
-
-Library:AddToRegistry(Inner, {
-    BackgroundColor3 = 'MainColor';
-    BorderColor3 = 'AccentColor';
-});
-
+    local Inner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.AccentColor;
+        BorderMode = Enum.BorderMode.Inset;
+        Position = UDim2.new(0, 1, 0, 1);
+        Size = UDim2.new(1, -2, 1, -2); -- Keeps the inner frame proportional to the outer frame
+        ZIndex = 1;
+        Parent = Outer;
+    });
 
     Library:AddToRegistry(Inner, {
         BackgroundColor3 = 'MainColor';
@@ -3015,7 +3009,7 @@ Library:AddToRegistry(Inner, {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33);
+        Size = UDim2.new(1, -16, 1, -33); -- Wider to fit the inner frame
         ZIndex = 1;
         Parent = Inner;
     });
@@ -3029,11 +3023,14 @@ Library:AddToRegistry(Inner, {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Color3.new(0, 0, 0);
         BorderMode = Enum.BorderMode.Inset;
+        -- Inner section size matches the outer section
         Position = UDim2.new(0, 0, 0, 0);
-        Size = UDim2.new(1, 0, 1, 0);
+        Size = UDim2.new(1, 0, 1, 0); -- Fill the entire outer section
         ZIndex = 1;
         Parent = MainSectionOuter;
     });
+    
+end
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
