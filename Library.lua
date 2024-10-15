@@ -2060,14 +2060,14 @@ Library:AddToRegistry(SliderInner, {
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-       function Slider:Display()
+function Slider:Display()
     local Suffix = Info.Suffix or '';
 
     -- Display only the maximum value above the slider
     DisplayLabel.Text = string.format('%s', Slider.Max .. Suffix);
 
-    -- Move the text above the slider
-    DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Adjust Y-axis to position above the slider
+    -- Move the text higher above the slider
+    DisplayLabel.Position = UDim2.new(0.5, 0, -1, 0)  -- Adjust the Y-axis (-1 moves it higher)
     DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
     -- Update the slider fill and border visibility
