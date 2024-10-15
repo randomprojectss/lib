@@ -2956,7 +2956,8 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
+    -- Increase the width of the window
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(750, 700) end -- Width: 750, Height: 700
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2985,7 +2986,8 @@ function Library:CreateWindow(...)
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2);
+        -- Adjust the inner frame size to match the wider outer frame
+        Size = UDim2.new(1, -2, 1, -2); -- Keeps the inner frame proportional to the outer frame
         ZIndex = 1;
         Parent = Outer;
     });
@@ -3007,8 +3009,9 @@ function Library:CreateWindow(...)
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
+        -- Adjust the outer section size to fit the new window dimensions
         Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33);
+        Size = UDim2.new(1, -16, 1, -33); -- Wider to fit the inner frame
         ZIndex = 1;
         Parent = Inner;
     });
@@ -3022,11 +3025,16 @@ function Library:CreateWindow(...)
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Color3.new(0, 0, 0);
         BorderMode = Enum.BorderMode.Inset;
+        -- Inner section size matches the outer section
         Position = UDim2.new(0, 0, 0, 0);
-        Size = UDim2.new(1, 0, 1, 0);
+        Size = UDim2.new(1, 0, 1, 0); -- Fill the entire outer section
         ZIndex = 1;
         Parent = MainSectionOuter;
     });
+
+    -- Additional elements (if needed) should be updated similarly to fit within the wider layout
+end
+
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
