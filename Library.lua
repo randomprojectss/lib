@@ -2061,27 +2061,22 @@ Library:AddToRegistry(SliderInner, {
             Fill.BorderColor3 = Library.AccentColorDark;
         end;
 
-       function Slider:Display()
+      function Slider:Display()
     local Suffix = Info.Suffix or '';
 
-    -- Update the display text based on the slider settings
-    if Info.Compact then
-        DisplayLabel.Text = Info.Text .. ': ' .. Slider.Value .. Suffix
-    elseif Info.HideMax then
-        DisplayLabel.Text = string.format('%s', Slider.Value .. Suffix)
-    else
-        DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix);
-    end
+    -- Display current value and maximum value above the slider
+    DisplayLabel.Text = string.format('%s/%s', Slider.Value .. Suffix, Slider.Max .. Suffix);
 
-    -- Move the text above the slider by adjusting the position of DisplayLabel
-    DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Moves the label above the slider (adjust Y value as needed)
-    DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Align the text horizontally to center
+    -- Move the text above the slider
+    DisplayLabel.Position = UDim2.new(0.5, 0, -0.5, 0)  -- Adjust Y-axis to position above the slider
+    DisplayLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center the text horizontally
 
-    -- Handle the slider fill and visibility of right border
+    -- Update the slider fill and border visibility
     local X = math.ceil(Library:MapValue(Slider.Value, Slider.Min, Slider.Max, 1, Slider.MaxSize));
     Fill.Size = UDim2.new(0, X, 1, 0);
     HideBorderRight.Visible = not (X == Slider.MaxSize or X == 0);
 end
+
 
 
         function Slider:OnChanged(Func)
