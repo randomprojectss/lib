@@ -2252,13 +2252,13 @@ end
             Parent = DropdownInner;
         });
 
-  local DropdownArrow = Library:Create('TextLabel', { -- Using TextLabel for text representation
+ local DropdownArrow = Library:Create('TextLabel', { 
     AnchorPoint = Vector2.new(0, 0.5);
     BackgroundTransparency = 1;
     Position = UDim2.new(1, -16, 0.5, 0);
-    Size = UDim2.new(0, 16, 0, 12); -- Adjusted width
+    Size = UDim2.new(0, 12, 0, 10); -- Slightly smaller width and height
     Text = '+'; -- Start with a plus sign
-    TextSize = 14; -- Adjust text size for a smaller appearance
+    TextSize = 12; -- Adjusted text size for a smaller appearance
     TextColor3 = Color3.new(1, 1, 1); -- Change this to your desired color
     ZIndex = 8;
     Parent = DropdownInner;
