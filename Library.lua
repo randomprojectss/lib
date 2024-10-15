@@ -2980,15 +2980,22 @@ function Library:CreateWindow(...)
 
     Library:MakeDraggable(Outer, 25);
 
-    local Inner = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.AccentColor;
-        BorderMode = Enum.BorderMode.Inset;
-        Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1000, -2, 100, -2);
-        ZIndex = 1;
-        Parent = Outer;
-    });
+   local Inner = Library:Create('Frame', {
+    BackgroundColor3 = Library.MainColor;
+    BorderColor3 = Library.AccentColor;
+    BorderMode = Enum.BorderMode.Inset;
+    Position = UDim2.new(0, 1, 0, 1);
+    -- Make the inner frame a bit wider by adjusting the width value
+    Size = UDim2.new(1, -10, 1, -2); -- Adjusted from -2 to -10 for width
+    ZIndex = 1;
+    Parent = Outer;
+});
+
+Library:AddToRegistry(Inner, {
+    BackgroundColor3 = 'MainColor';
+    BorderColor3 = 'AccentColor';
+});
+
 
     Library:AddToRegistry(Inner, {
         BackgroundColor3 = 'MainColor';
