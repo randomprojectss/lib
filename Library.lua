@@ -2956,7 +2956,7 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(575, 600) end -- Slightly wider window
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(575, 600) end -- Slightly widen outer frame
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2967,7 +2967,7 @@ function Library:CreateWindow(...)
         Tabs = {};
     };
 
-    -- Outer frame
+    -- Outer frame (slightly wider)
     local Outer = Library:Create('Frame', {
         AnchorPoint = Config.AnchorPoint,
         BackgroundColor3 = Color3.new(0, 0, 0);
@@ -2981,13 +2981,13 @@ function Library:CreateWindow(...)
 
     Library:MakeDraggable(Outer, 25);
 
-    -- Inner frame (visible)
+    -- Inner frame (keeping the original size)
     local Inner = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2); -- The frame adjusts to match the size of the outer frame
+        Size = UDim2.new(0, 550, 1, -2); -- Keep the inner frame the same width
         ZIndex = 1;
         Parent = Outer;
     });
@@ -3012,7 +3012,7 @@ function Library:CreateWindow(...)
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33); -- Ensures the section fits within the inner frame
+        Size = UDim2.new(0, 534, 1, -33); -- Keep the inner section size the same
         ZIndex = 1;
         Parent = Inner;
     });
@@ -3035,6 +3035,15 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
+    });
+
+    -- Tab area
+    local TabArea = Library:Create('Frame', {
+        BackgroundTransparency = 1;
+        Position = UDim2.new(0, 8, 0, 8);
+        Size = UDim2.new(1, -16, 0, 21);
+        ZIndex = 1;
+        Parent = MainSectionInner;
     });
 
     -- Tab area
