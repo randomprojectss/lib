@@ -1986,7 +1986,7 @@ do
         if not Info.Compact then
             Library:CreateLabel({
                 Size = UDim2.new(1, 0, 0, 10);
-                TextSize = 10;
+                TextSize = 14;
                 Text = Info.Text;
                 TextXAlignment = Enum.TextXAlignment.Left;
                 TextYAlignment = Enum.TextYAlignment.Bottom;
@@ -1997,10 +1997,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-      local SliderOuter = Library:Create('Frame', {
+       local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(1, -4, 0, 8);  -- Full width minus a small offset for padding, height of 8 for thickness
+    Size = UDim2.new(1, -4, 0, 8);  -- Changed height to 8 for a thicker outer slider
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,7 +2013,7 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0);  -- Matches the size of SliderOuter, filling it completely
+    Size = UDim2.new(1, 0, 1, 0);  -- Inner size remains the same to match the outer height
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2023,63 +2023,44 @@ Library:AddToRegistry(SliderInner, {
     BorderColor3 = 'OutlineColor';
 });
 
-local Fill = Library:Create('Frame', {
-    BackgroundColor3 = Library.AccentColor;
-    BorderColor3 = Library.AccentColorDark;
-    Size = UDim2.new(0, 0, 1, 0);  -- Starts at 0 width, will expand dynamically
-    ZIndex = 7;
-    Parent = SliderInner;
-});
+        local Fill = Library:Create('Frame', {
+            BackgroundColor3 = Library.AccentColor;
+            BorderColor3 = Library.AccentColorDark;
+            Size = UDim2.new(0, 0, 1, 0);
+            ZIndex = 7;
+            Parent = SliderInner;
+        });
 
-Library:AddToRegistry(Fill, {
-    BackgroundColor3 = 'AccentColor';
-    BorderColor3 = 'AccentColorDark';
-});
+        Library:AddToRegistry(Fill, {
+            BackgroundColor3 = 'AccentColor';
+            BorderColor3 = 'AccentColorDark';
+        });
 
-local HideBorderRight = Library:Create('Frame', {
-    BackgroundColor3 = Library.AccentColor;
-    BorderSizePixel = 0;
-    Position = UDim2.new(1, -1, 0, 0);  -- Adjusted to stick exactly to the right edge
-    Size = UDim2.new(0, 1, 1, 0);  -- This will hide the right border without overflowing
-    ZIndex = 8;
-    Parent = Fill;
-});
+        local HideBorderRight = Library:Create('Frame', {
+            BackgroundColor3 = Library.AccentColor;
+            BorderSizePixel = 0;
+            Position = UDim2.new(1, 0, 0, 0);
+            Size = UDim2.new(0, 1, 1, 0);
+            ZIndex = 8;
+            Parent = Fill;
+        });
 
-Library:AddToRegistry(HideBorderRight, {
-    BackgroundColor3 = 'AccentColor';
-});
+        Library:AddToRegistry(HideBorderRight, {
+            BackgroundColor3 = 'AccentColor';
+        });
 
-local DisplayLabel = Library:CreateLabel({
-    Size = UDim2.new(1, 0, 1, 0);
-    TextSize = 14;
-    Text = 'Infinite';
-    ZIndex = 9;
-    Parent = SliderInner;
-});
+        local DisplayLabel = Library:CreateLabel({
+            Size = UDim2.new(1, 0, 1, 0);
+            TextSize = 14;
+            Text = 'Infinite';
+            ZIndex = 9;
+            Parent = SliderInner;
+        });
 
-Library:OnHighlight(SliderOuter, SliderOuter,
-    { BorderColor3 = 'AccentColor' },
-    { BorderColor3 = 'Black' }
-);
-
--- Function to update fill based on slider position
-local function UpdateSliderFill(percentage)
-    Fill.Size = UDim2.new(percentage, 0, 1, 0);  -- Set the fill to a percentage of the full width
-end
-
-
-local DisplayLabel = Library:CreateLabel({
-    Size = UDim2.new(1, 0, 1, 0);
-    TextSize = 14;
-    Text = 'Infinite';
-    ZIndex = 9;
-    Parent = SliderInner;
-});
-
-Library:OnHighlight(SliderOuter, SliderOuter,
-    { BorderColor3 = 'AccentColor' },
-    { BorderColor3 = 'Black' }
-);
+        Library:OnHighlight(SliderOuter, SliderOuter,
+            { BorderColor3 = 'AccentColor' },
+            { BorderColor3 = 'Black' }
+        );
 
         if type(Info.Tooltip) == 'string' then
             Library:AddToolTip(Info.Tooltip, SliderOuter)
