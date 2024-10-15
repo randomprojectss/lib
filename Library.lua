@@ -1997,10 +1997,10 @@ do
             Groupbox:AddBlank(3);
         end
 
-       local SliderOuter = Library:Create('Frame', {
+      local SliderOuter = Library:Create('Frame', {
     BackgroundColor3 = Color3.new(0, 0, 0);
     BorderColor3 = Color3.new(0, 0, 0);
-    Size = UDim2.new(1, -4, 0, 8);  -- Changed height to 8 for a thicker outer slider
+    Size = UDim2.new(0.9, -4, 0, 6);  -- Made the outer slider narrower with a height of 6
     ZIndex = 5;
     Parent = Container;
 });
@@ -2013,7 +2013,8 @@ local SliderInner = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;
     BorderColor3 = Library.OutlineColor;
     BorderMode = Enum.BorderMode.Inset;
-    Size = UDim2.new(1, 0, 1, 0);  -- Inner size remains the same to match the outer height
+    Size = UDim2.new(1, -2, 1, -2);  -- Inner size adjusted to be slightly smaller, fitting perfectly inside outer slider
+    Position = UDim2.new(0, 1, 0, 1);  -- Centered inside outer slider with a 1px border
     ZIndex = 6;
     Parent = SliderOuter;
 });
@@ -2023,18 +2024,19 @@ Library:AddToRegistry(SliderInner, {
     BorderColor3 = 'OutlineColor';
 });
 
-        local Fill = Library:Create('Frame', {
-            BackgroundColor3 = Library.AccentColor;
-            BorderColor3 = Library.AccentColorDark;
-            Size = UDim2.new(0, 0, 1, 0);
-            ZIndex = 7;
-            Parent = SliderInner;
-        });
+local Fill = Library:Create('Frame', {
+    BackgroundColor3 = Library.AccentColor;
+    BorderColor3 = Library.AccentColorDark;
+    Size = UDim2.new(0, 0, 1, 0);  -- Will expand horizontally as slider is adjusted
+    ZIndex = 7;
+    Parent = SliderInner;
+});
 
-        Library:AddToRegistry(Fill, {
-            BackgroundColor3 = 'AccentColor';
-            BorderColor3 = 'AccentColorDark';
-        });
+Library:AddToRegistry(Fill, {
+    BackgroundColor3 = 'AccentColor';
+    BorderColor3 = 'AccentColorDark';
+});
+
 
         local HideBorderRight = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
