@@ -2955,9 +2955,9 @@ function Library:CreateWindow(...)
     if type(Config.TabPadding) ~= 'number' then Config.TabPadding = 0 end
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
+    -- Reduce the window's overall size to make it narrower and more compact
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    -- Increase the width of the window
-    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(750, 700) end -- Width: 750, Height: 700
+    if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(400, 450) end -- Reduced width and height
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2968,25 +2968,27 @@ function Library:CreateWindow(...)
         Tabs = {};
     };
 
+    -- Outer frame (still invisible but present for layout purposes)
     local Outer = Library:Create('Frame', {
         AnchorPoint = Config.AnchorPoint,
-        BackgroundColor3 = Color3.new(0, 0, 0);
+        BackgroundTransparency = 1, -- Keep outer frame invisible
         BorderSizePixel = 0;
         Position = Config.Position,
         Size = Config.Size,
-        Visible = false;
+        Visible = false; -- Outer frame invisible
         ZIndex = 1;
         Parent = ScreenGui;
     });
 
     Library:MakeDraggable(Outer, 25);
 
+    -- Inner frame (visible but narrower)
     local Inner = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.AccentColor;
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 1, 0, 1);
-        Size = UDim2.new(1, -2, 1, -2); -- Keeps the inner frame proportional to the outer frame
+        Size = UDim2.new(1, -2, 1, -2); -- Maintained relative to the outer frame size
         ZIndex = 1;
         Parent = Outer;
     });
@@ -2996,20 +2998,22 @@ function Library:CreateWindow(...)
         BorderColor3 = 'AccentColor';
     });
 
+    -- Window label (header)
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, 7, 0, 0);
-        Size = UDim2.new(0, 0, 0, 25);
+        Size = UDim2.new(1, -14, 0, 25); -- Adjusted label width to fit narrower frame
         Text = Config.Title or '';
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 1;
         Parent = Inner;
     });
 
+    -- Main section outer (connected to the inner frame)
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33); -- Wider to fit the inner frame
+        Size = UDim2.new(1, -16, 1, -33); -- Adjusted to narrower frame size
         ZIndex = 1;
         Parent = Inner;
     });
@@ -3019,20 +3023,28 @@ function Library:CreateWindow(...)
         BorderColor3 = 'OutlineColor';
     });
 
+    -- Main section inner frame
     local MainSectionInner = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Color3.new(0, 0, 0);
         BorderMode = Enum.BorderMode.Inset;
-        -- Inner section size matches the outer section
         Position = UDim2.new(0, 0, 0, 0);
-        Size = UDim2.new(1, 0, 1, 0); -- Fill the entire outer section
+        Size = UDim2.new(1, 0, 1, 0); -- Same size, fits inside outer frame
         ZIndex = 1;
         Parent = MainSectionOuter;
     });
-    
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
+    });
+
+    -- Tab area (also narrower, to fit new size)
+    local TabArea = Library:Create('Frame', {
+        BackgroundTransparency = 1;
+        Position = UDim2.new(0, 8, 0, 8);
+        Size = UDim2.new(1, -16, 0, 21); -- Adjusted to fit the narrower frame
+        ZIndex = 1;
+        Parent = MainSectionInner;
     });
 
     local TabArea = Library:Create('Frame', {
