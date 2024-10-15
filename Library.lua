@@ -3012,7 +3012,16 @@ function Library:CreateWindow(...)
         BorderColor3 = 'AccentColor';
     });
 
-   
+   local WindowLabel = Library:CreateLabel({
+    Position = UDim2.new(0.5, 0, 0, 0); -- Set X scale to 0.5 for centering
+    Size = UDim2.new(0, 200, 0, 25); -- Set a specific width (e.g., 200) and height (25)
+    Text = Config.Title or '';
+    TextXAlignment = Enum.TextXAlignment.Center; -- Center the text
+    ZIndex = 1;
+    Parent = Inner;
+    AnchorPoint = Vector2.new(0.5, 0); -- Anchor the label to its center
+});
+
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
