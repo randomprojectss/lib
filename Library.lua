@@ -2241,17 +2241,18 @@ end
             Parent = DropdownInner;
         });
 
-  local DropdownArrow = Library:Create('TextLabel', { -- Change ImageLabel to TextLabel
+  local DropdownArrow = Library:Create('TextLabel', { -- Using TextLabel for text representation
     AnchorPoint = Vector2.new(0, 0.5);
     BackgroundTransparency = 1;
     Position = UDim2.new(1, -16, 0.5, 0);
-    Size = UDim2.new(0, 20, 0, 12); -- Adjust width here
+    Size = UDim2.new(0, 16, 0, 12); -- Adjusted width
     Text = '+'; -- Start with a plus sign
-    TextSize = 16; -- Adjust text size for wider appearance
+    TextSize = 14; -- Adjust text size for a smaller appearance
     TextColor3 = Color3.new(1, 1, 1); -- Change this to your desired color
     ZIndex = 8;
     Parent = DropdownInner;
 });
+
 
 
         local ItemList = Library:CreateLabel({
@@ -2508,6 +2509,7 @@ function Dropdown:CloseDropdown()
     Library.OpenedFrames[ListOuter] = nil;
     DropdownArrow.Text = '+'; -- Change back to plus sign when dropdown is closed
 end;
+
 
 
         function Dropdown:OnChanged(Func)
