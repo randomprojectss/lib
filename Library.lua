@@ -1429,29 +1429,38 @@ do
 
         local function CreateBaseButton(Button)
     local Outer = Library:Create('Frame', {
-        BackgroundColor3 = Color3.new(0, 0, 0);
-        BorderColor3 = Color3.new(0, 0, 0);
-        Size = UDim2.new(1, -4, 0, 17); -- Adjusted height to 15
-        ZIndex = 5;
-    });
+        BackgroundColor3 = Color3.new(0, 0, 0),
+        BorderColor3 = Color3.new(0, 0, 0),
+        Size = UDim2.new(1, -4, 0, 17), -- Adjusted height to 15
+        ZIndex = 5,
+    })
 
+    local Inner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor,
+        BorderColor3 = Library.OutlineColor,
+        BorderMode = Enum.BorderMode.Inset,
+        Size = UDim2.new(1, 0, 1, 0),
+        ZIndex = 6,
+        Parent = Outer,
+    })
 
-            local Inner = Library:Create('Frame', {
-                BackgroundColor3 = Library.MainColor;
-                BorderColor3 = Library.OutlineColor;
-                BorderMode = Enum.BorderMode.Inset;
-                Size = UDim2.new(1, 0, 1, 0);
-                ZIndex = 6;
-                Parent = Outer;
-            });
+    local Label = Library:CreateLabel({
+        Size = UDim2.new(1, 0, 1, 0),
+        TextSize = 14,
+        Text = Button.Text,
+        ZIndex = 6,
+        Parent = Inner,
+    })
 
-            local Label = Library:CreateLabel({
-                Size = UDim2.new(1, 0, 1, 0);
-                TextSize = 14;
-                Text = Button.Text;
-                ZIndex = 6;
-                Parent = Inner;
-            });
+    -- Create the image next to the button
+    local Image = Library:Create('ImageLabel', {
+        Size = UDim2.new(0, 16, 0, 16), -- Adjust the size as needed
+        Position = UDim2.new(1, 5, 0, 1), -- Adjust the position next to the button
+        Image = 'rbxassetid://17374627566', -- Your image asset ID
+        BackgroundTransparency = 1, -- Makes the background transparent
+        ZIndex = 6,
+        Parent = Inner, -- Parent it to the Inner frame
+    })
 
             Library:Create('UIGradient', {
                 Color = ColorSequence.new({
