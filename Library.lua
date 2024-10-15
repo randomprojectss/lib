@@ -2241,15 +2241,18 @@ end
             Parent = DropdownInner;
         });
 
-        local DropdownArrow = Library:Create('ImageLabel', {
-            AnchorPoint = Vector2.new(0, 0.5);
-            BackgroundTransparency = 1;
-            Position = UDim2.new(1, -16, 0.5, 0);
-            Size = UDim2.new(0, 12, 0, 12);
-            Image = 'http://www.roblox.com/asset/?id=6282522798';
-            ZIndex = 8;
-            Parent = DropdownInner;
-        });
+     local DropdownArrow = Library:Create('TextLabel', {
+    AnchorPoint = Vector2.new(0, 0.5);
+    BackgroundTransparency = 1;
+    Position = UDim2.new(1, -16, 0.5, 0);
+    Size = UDim2.new(0, 12, 0, 12);
+    Text = '+'; -- Use a plus sign as the text
+    TextColor3 = Color3.fromRGB(255, 255, 255); -- Set text color to white or any desired color
+    TextScaled = true; -- Scale the text to fit
+    ZIndex = 8;
+    Parent = DropdownInner;
+});
+
 
         local ItemList = Library:CreateLabel({
             Position = UDim2.new(0, 5, 0, 0);
