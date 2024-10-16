@@ -3063,7 +3063,7 @@ local TabListLayout = Library:Create('UIListLayout', {
 -- Adjust Tab Container Size for fitting properly
 local TabContainer = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;  -- Use the main color to match the theme
-    BackgroundTransparency = 1;  -- Make sure it's fully transparent to avoid the white screen
+    BackgroundTransparency = 1;  -- Fully transparent to avoid the white screen
     BorderColor3 = Library.OutlineColor;
     Position = UDim2.new(0, 8, 0, 40);  -- Adjusted position
     Size = UDim2.new(1, -16, 1, -48);  -- Adjusted size for fitting content
@@ -3086,23 +3086,15 @@ function Window:AddTab(Name)
     -- Widen the Tab Button for better text fit
     local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16) + 20; -- Added 20px width for better spacing
 
-    -- Create a wider Tab Button
+    -- Create a transparent Tab Button
     local TabButton = Library:Create('Frame', {
-        BackgroundColor3 = Library.BackgroundColor;
-        BackgroundTransparency = 0;  -- Ensure button background is visible
-        BorderColor3 = Library.OutlineColor;
+        BackgroundTransparency = 1;  -- Fully transparent button background
         Size = UDim2.new(0, TabButtonWidth + 12, 1, 0); -- Slightly wider by adding 12px
         ZIndex = 1;
         Parent = TabArea;
     });
 
-    -- Add to registry for color updates
-    Library:AddToRegistry(TabButton, {
-        BackgroundColor3 = 'BackgroundColor';
-        BorderColor3 = 'OutlineColor';
-    });
-
-    -- Label for Tab Button
+    -- Label for Tab Button (visible text only)
     local TabButtonLabel = Library:CreateLabel({
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, 0, 1, -1);
@@ -3111,13 +3103,13 @@ function Window:AddTab(Name)
         Parent = TabButton;
     });
 
-    -- Blocker to manage active tab appearance
+    -- Blocker to manage active tab appearance (visible only for active tab)
     local Blocker = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderSizePixel = 0;
-        Position = UDim2.new(0, 0, 1, 0);
-        Size = UDim2.new(1, 0, 0, 1);
-        BackgroundTransparency = 1;  -- Ensure transparency for inactive tabs
+        Position = UDim2.new(0, 0, 1, 0);  -- At the bottom of the tab button
+        Size = UDim2.new(1, 0, 0, 1);  -- Thin line for active tab
+        BackgroundTransparency = 1;  -- Hidden by default (inactive tabs)
         ZIndex = 3;
         Parent = TabButton;
     });
@@ -3127,22 +3119,23 @@ function Window:AddTab(Name)
         BackgroundColor3 = 'MainColor';
     });
 
-    -- Create Tab Frame for content
+    -- Create Tab Frame for content (hidden until selected)
     local TabFrame = Library:Create('Frame', {
         Name = 'TabFrame';
-        BackgroundTransparency = 0;  -- Removed transparency for a solid background
-        BackgroundColor3 = Library.MainColor;  -- Added MainColor for the TabFrame background
+        BackgroundTransparency = 0;  -- Solid background when tab is visible
+        BackgroundColor3 = Library.MainColor;  -- MainColor for TabFrame background
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, 0, 1, 0);
-        Visible = false;
+        Visible = false;  -- Hidden until the tab is clicked
         ZIndex = 2;
         Parent = TabContainer;
     });
 
-    -- Add TabFrame to registry for proper color management if needed
+    -- Add TabFrame to registry for proper color management
     Library:AddToRegistry(TabFrame, {
         BackgroundColor3 = 'MainColor';
     });
+
 
     -- Return the created Tab for further customizations
    
