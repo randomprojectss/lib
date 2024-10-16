@@ -3046,8 +3046,8 @@ function Library:CreateWindow(...)
 -- Tab Area Creation
 local TabArea = Library:Create('Frame', {
     BackgroundTransparency = 1;  -- Ensure transparency
-    Position = UDim2.new(0, 8, 0, 8);
-    Size = UDim2.new(1, -16, 0, 40);  -- Increased height for better fit (from 30 to 40)
+    Position = UDim2.new(0, 8, 0, 4);  -- Moved higher by reducing the Y position
+    Size = UDim2.new(1, -16, 0, 30);  -- Height remains the same
     ZIndex = 1;
     Parent = MainSectionInner;
 });
@@ -3065,8 +3065,8 @@ local TabContainer = Library:Create('Frame', {
     BackgroundColor3 = Library.MainColor;  -- Use the main color to match the theme
     BackgroundTransparency = 1;  -- Make sure it's fully transparent to avoid the white screen
     BorderColor3 = Library.OutlineColor;
-    Position = UDim2.new(0, 8, 0, 50);  -- Adjusted position to accommodate the new height
-    Size = UDim2.new(1, -16, 1, -58);  -- Adjusted size for fitting content (adjusted bottom value)
+    Position = UDim2.new(0, 8, 0, 34);  -- Adjusted position to accommodate the new height (previously 40)
+    Size = UDim2.new(1, -16, 1, -48);  -- Size remains the same
     ZIndex = 2;
     Parent = MainSectionInner;
 });
@@ -3091,7 +3091,7 @@ function Window:AddTab(Name)
         BackgroundColor3 = Library.BackgroundColor;
         BackgroundTransparency = 0;  -- Ensure button background is visible
         BorderColor3 = Library.OutlineColor;
-        Size = UDim2.new(0, TabButtonWidth + 12, 1, 0); -- Adjusted to fit within new TabArea height
+        Size = UDim2.new(0, TabButtonWidth + 12, 1, 0); -- Slightly wider by adding 12px
         ZIndex = 1;
         Parent = TabArea;
     });
