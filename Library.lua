@@ -3045,7 +3045,7 @@ function Library:CreateWindow(...)
 
 -- Tab Area Creation
 local TabArea = Library:Create('Frame', {
-    BackgroundTransparency = 1;  -- Ensure transparency of the Tab Area
+    BackgroundTransparency = 1;  -- Ensure transparency
     Position = UDim2.new(0, 8, 0, 8);
     Size = UDim2.new(1, -16, 0, 30);  -- Adjusted height for better fit
     ZIndex = 1;
@@ -3062,8 +3062,8 @@ local TabListLayout = Library:Create('UIListLayout', {
 
 -- Adjust Tab Container Size for fitting properly
 local TabContainer = Library:Create('Frame', {
-    BackgroundColor3 = Library.MainColor;  -- Match the main theme color
-    BackgroundTransparency = 1;  -- Ensure full transparency of the container
+    BackgroundColor3 = Library.MainColor;  -- Use the main color to match the theme
+    BackgroundTransparency = 1;  -- Make sure it's fully transparent to avoid the white screen
     BorderColor3 = Library.OutlineColor;
     Position = UDim2.new(0, 8, 0, 40);  -- Adjusted position
     Size = UDim2.new(1, -16, 1, -48);  -- Adjusted size for fitting content
@@ -3071,7 +3071,7 @@ local TabContainer = Library:Create('Frame', {
     Parent = MainSectionInner;
 });
 
--- Function to set window title
+-- Function to set window title (Unchanged)
 function Window:SetWindowTitle(Title)
     WindowLabel.Text = Title;
 end;
@@ -3083,18 +3083,26 @@ function Window:AddTab(Name)
         Tabboxes = {};
     };
 
-    -- Calculate the width of the Tab Button based on text size
+    -- Widen the Tab Button for better text fit
     local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16) + 20; -- Added 20px width for better spacing
 
-    -- Create a Tab Button Frame (fully transparent)
+    -- Create a wider Tab Button
     local TabButton = Library:Create('Frame', {
-        BackgroundTransparency = 1;  -- Ensure full transparency for the tab button background
+        BackgroundColor3 = Library.BackgroundColor;
+        BackgroundTransparency = 0;  -- Ensure button background is visible
+        BorderColor3 = Library.OutlineColor;
         Size = UDim2.new(0, TabButtonWidth + 12, 1, 0); -- Slightly wider by adding 12px
         ZIndex = 1;
         Parent = TabArea;
     });
 
-    -- Label for Tab Button (only text should be visible)
+    -- Add to registry for color updates
+    Library:AddToRegistry(TabButton, {
+        BackgroundColor3 = 'BackgroundColor';
+        BorderColor3 = 'OutlineColor';
+    });
+
+    -- Label for Tab Button
     local TabButtonLabel = Library:CreateLabel({
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, 0, 1, -1);
@@ -3103,18 +3111,18 @@ function Window:AddTab(Name)
         Parent = TabButton;
     });
 
-    -- Blocker to manage active tab appearance (keeps an accent line for the active tab)
+    -- Blocker to manage active tab appearance
     local Blocker = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderSizePixel = 0;
-        Position = UDim2.new(0, 0, 1, 0);  -- Position at the bottom of the tab button
-        Size = UDim2.new(1, 0, 0, 1);  -- Height of 1px for the accent color line
-        BackgroundTransparency = 1;  -- Hide by default, shown only for active tab
+        Position = UDim2.new(0, 0, 1, 0);
+        Size = UDim2.new(1, 0, 0, 1);
+        BackgroundTransparency = 1;  -- Ensure transparency for inactive tabs
         ZIndex = 3;
         Parent = TabButton;
     });
 
-    -- Add Blocker to registry for color updates
+    -- Add Blocker to registry
     Library:AddToRegistry(Blocker, {
         BackgroundColor3 = 'MainColor';
     });
