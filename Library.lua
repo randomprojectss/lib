@@ -3144,9 +3144,6 @@ function Window:AddTab(Name)
     });
 
     -- Return the created Tab for further customizations
-    return Tab;
-end;
-
 
         local LeftSide = Library:Create('ScrollingFrame', {
             BackgroundTransparency = 1;
