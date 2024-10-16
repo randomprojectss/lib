@@ -3130,12 +3130,6 @@ function Window:AddTab(Name)
                 Blocker = Blocker,
                 TabFrame = TabFrame
             };
-        end
-    end);
-
-    -- Return the created Tab for further customizations
-    return Tab;
-end
 
     -- Return the created Tab for further customizations
    
