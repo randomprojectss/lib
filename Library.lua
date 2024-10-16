@@ -3043,6 +3043,12 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
 
+
+
+    -- Add Blocker to registry
+    Library:AddToRegistry(Blocker, {
+        BackgroundColor3 = 'MainColor';
+    });
 -- Tab Area Creation
 local TabArea = Library:Create('Frame', {
     BackgroundTransparency = 1;  -- Ensure transparency
@@ -3122,16 +3128,11 @@ function Window:AddTab(Name)
         Parent = TabButton;
     });
 
-    -- Add Blocker to registry
-    Library:AddToRegistry(Blocker, {
-        BackgroundColor3 = 'MainColor';
-    });
-
     -- Create Tab Frame for content
     local TabFrame = Library:Create('Frame', {
         Name = 'TabFrame';
-        BackgroundTransparency = 0;  -- Removed transparency for a solid background
-        BackgroundColor3 = Library.MainColor;  -- Added MainColor for the TabFrame background
+        BackgroundTransparency = 1;  -- Make the TabFrame fully transparent
+        BackgroundColor3 = Library.MainColor;  -- Keep MainColor for visual consistency
         Position = UDim2.new(0, 0, 0, 0);
         Size = UDim2.new(1, 0, 1, 0);
         Visible = false;
@@ -3143,6 +3144,8 @@ function Window:AddTab(Name)
     Library:AddToRegistry(TabFrame, {
         BackgroundColor3 = 'MainColor';
     });
+
+    -- (Additional code for managing tab switching can go here)
 
     -- Return the created Tab for further customizations
    
