@@ -2985,8 +2985,8 @@ function Library:CreateWindow(...)
     };
 
     local Outer = Library:Create('Frame', {
-       BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.AccentColor;
+        AnchorPoint = Config.AnchorPoint,
+        BackgroundColor3 = Library.MainColor;
         BorderSizePixel = 0;
         Position = Config.Position,
         Size = Config.Size,
@@ -3008,7 +3008,7 @@ function Library:CreateWindow(...)
     });
 
     Library:AddToRegistry(Inner, {
-        BackgroundColor3 = 'MainColor';
+       BackgroundColor3 = Library.MainColor;
         BorderColor3 = 'AccentColor';
     });
 
@@ -3024,7 +3024,7 @@ function Library:CreateWindow(...)
 
 
     local MainSectionOuter = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
+       BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
         Size = UDim2.new(1, -16, 1, -33);
@@ -3032,10 +3032,13 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
-    
+    Library:AddToRegistry(MainSectionOuter, {
+        BackgroundColor3 = 'BackgroundColor';
+        BorderColor3 = 'OutlineColor';
+    });
 
     local MainSectionInner = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
+       BackgroundColor3 = Library.MainColor;
         BorderColor3 = Color3.new(0, 0, 0);
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 0, 0, 0);
@@ -3044,7 +3047,10 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
 
-    
+    Library:AddToRegistry(MainSectionInner, {
+        BackgroundColor3 = 'BackgroundColor';
+    });
+
 
     local TabArea = Library:Create('Frame', {
         BackgroundTransparency = 1;
@@ -3071,7 +3077,10 @@ function Library:CreateWindow(...)
     });
     
 
-    
+    Library:AddToRegistry(TabContainer, {
+        BackgroundColor3 = 'MainColor';
+        BorderColor3 = 'OutlineColor';
+    });
 
     function Window:SetWindowTitle(Title)
         WindowLabel.Text = Title;
@@ -3093,7 +3102,10 @@ function Library:CreateWindow(...)
             Parent = TabArea;
         });
 
-     
+        Library:AddToRegistry(TabButton, {
+            BackgroundColor3 = 'BackgroundColor';
+            BorderColor3 = 'OutlineColor';
+        });
 
         local TabButtonLabel = Library:CreateLabel({
             Position = UDim2.new(0, 0, 0, 0);
