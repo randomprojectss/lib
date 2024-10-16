@@ -3024,7 +3024,7 @@ function Library:CreateWindow(...)
 
 
     local MainSectionOuter = Library:Create('Frame', {
-        BackgroundColor3 = Library.BackgroundColor;
+        BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 25);
         Size = UDim2.new(1, -16, 1, -33);
@@ -3035,7 +3035,7 @@ function Library:CreateWindow(...)
     
 
     local MainSectionInner = Library:Create('Frame', {
-        BackgroundColor3 = Library.BackgroundColor;
+        BackgroundColor3 = Library.MainColor;
         BorderColor3 = Color3.new(0, 0, 0);
         BorderMode = Enum.BorderMode.Inset;
         Position = UDim2.new(0, 0, 0, 0);
