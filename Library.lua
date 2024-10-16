@@ -3045,109 +3045,88 @@ function Library:CreateWindow(...)
 
 
 
--- Tab Area Creation
-local TabArea = Library:Create('Frame', {
-    BackgroundTransparency = 1;  -- Ensure transparency
-    Position = UDim2.new(0, 8, 0, 8);
-    Size = UDim2.new(1, -16, 0, 30);  -- Adjusted height for better fit
-    ZIndex = 1;
-    Parent = MainSectionInner;
-});
-
--- Adjust padding between tabs
-local TabListLayout = Library:Create('UIListLayout', {
-    Padding = UDim.new(0, Config.TabPadding);  -- Adjust padding
-    FillDirection = Enum.FillDirection.Horizontal;
-    SortOrder = Enum.SortOrder.LayoutOrder;
-    Parent = TabArea;
-});
-
--- Adjust Tab Container Size for fitting properly
-local TabContainer = Library:Create('Frame', {
-    BackgroundColor3 = Library.MainColor;  -- Use the main color to match the theme
-    BackgroundTransparency = 1;  -- Make sure it's fully transparent to avoid the white screen
-    BorderColor3 = Library.OutlineColor;
-    Position = UDim2.new(0, 8, 0, 40);  -- Adjusted position
-    Size = UDim2.new(1, -16, 1, -48);  -- Adjusted size for fitting content
-    ZIndex = 2;
-    Parent = MainSectionInner;
-});
-
--- Function to set window title (Unchanged)
-function Window:SetWindowTitle(Title)
-    WindowLabel.Text = Title;
-end;
-
--- Function to add tabs
-function Window:AddTab(Name)
-    local Tab = {
-        Groupboxes = {};
-        Tabboxes = {};
-    };
-
-    -- Widen the Tab Button for better text fit
-    local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16) + 20; -- Added 20px width for better spacing
-
-    -- Create a wider Tab Button
-    local TabButton = Library:Create('Frame', {
-        BackgroundColor3 = Library.BackgroundColor;
-        BackgroundTransparency = 0;  -- Ensure button background is visible
-        BorderColor3 = Library.OutlineColor;
-        Size = UDim2.new(0, TabButtonWidth + 12, 1, 0); -- Slightly wider by adding 12px
+    local TabArea = Library:Create('Frame', {
+        BackgroundTransparency = 1;
+        Position = UDim2.new(0, 8, 0, 8);
+        Size = UDim2.new(1, -16, 0, 21);
         ZIndex = 1;
+        Parent = MainSectionInner;
+    });
+
+    local TabListLayout = Library:Create('UIListLayout', {
+        Padding = UDim.new(0, Config.TabPadding);
+        FillDirection = Enum.FillDirection.Horizontal;
+        SortOrder = Enum.SortOrder.LayoutOrder;
         Parent = TabArea;
     });
 
-    -- Add to registry for color updates
-    Library:AddToRegistry(TabButton, {
-        BackgroundColor3 = 'BackgroundColor';
-        BorderColor3 = 'OutlineColor';
-    });
-
-    -- Label for Tab Button
-    local TabButtonLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 0, 0, 0);
-        Size = UDim2.new(1, 0, 1, -1);
-        Text = Name;
-        ZIndex = 1;
-        Parent = TabButton;
-    });
-
-    -- Blocker to manage active tab appearance
-    local Blocker = Library:Create('Frame', {
+    local TabContainer = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
-        BorderSizePixel = 0;
-        Position = UDim2.new(0, 0, 1, 0);
-        Size = UDim2.new(1, 0, 0, 1);
-        BackgroundTransparency = 1;  -- Ensure transparency for inactive tabs
-        ZIndex = 3;
-        Parent = TabButton;
-    });
-
-    -- Add Blocker to registry
-    Library:AddToRegistry(Blocker, {
-        BackgroundColor3 = 'MainColor';
-    });
-
-    -- Create Tab Frame for content
-    local TabFrame = Library:Create('Frame', {
-        Name = 'TabFrame';
-        BackgroundTransparency = 1;  -- Ensure the tab frame is transparent
-        Position = UDim2.new(0, 0, 0, 0);
-        Size = UDim2.new(1, 0, 1, 0);
-        Visible = false;
+        BorderColor3 = Library.OutlineColor;
+        Position = UDim2.new(0, 8, 0, 30);
+        Size = UDim2.new(1, -16, 1, -38);
         ZIndex = 2;
-        Parent = TabContainer;
+        Parent = MainSectionInner;
     });
+    
 
-    -- Return the created Tab for further customizations
 
-    -- Ensure things fit better by adjusting container size and padding
-    Library:AddToRegistry(TabFrame, {
-        BackgroundTransparency = 'BackgroundTransparency'
-    });
+    function Window:SetWindowTitle(Title)
+        WindowLabel.Text = Title;
+    end;
 
-    -- Return the created Tab for further customizations
+    function Window:AddTab(Name)
+        local Tab = {
+            Groupboxes = {};
+            Tabboxes = {};
+        };
+
+        local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16);
+
+        local TabButton = Library:Create('Frame', {
+            BackgroundColor3 = Library.BackgroundColor;
+            BorderColor3 = Library.OutlineColor;
+            Size = UDim2.new(0, TabButtonWidth + 8 + 4, 1, 0);
+            ZIndex = 1;
+            Parent = TabArea;
+        });
+
+        Library:AddToRegistry(TabButton, {
+            BackgroundColor3 = 'BackgroundColor';
+            BorderColor3 = 'OutlineColor';
+        });
+
+        local TabButtonLabel = Library:CreateLabel({
+            Position = UDim2.new(0, 0, 0, 0);
+            Size = UDim2.new(1, 0, 1, -1);
+            Text = Name;
+            ZIndex = 1;
+            Parent = TabButton;
+        });
+
+        local Blocker = Library:Create('Frame', {
+            BackgroundColor3 = Library.MainColor;
+            BorderSizePixel = 0;
+            Position = UDim2.new(0, 0, 1, 0);
+            Size = UDim2.new(1, 0, 0, 1);
+            BackgroundTransparency = 1;
+            ZIndex = 3;
+            Parent = TabButton;
+        });
+
+        Library:AddToRegistry(Blocker, {
+            BackgroundColor3 = 'MainColor';
+        });
+
+        local TabFrame = Library:Create('Frame', {
+            Name = 'TabFrame',
+            BackgroundTransparency = 1;
+            Position = UDim2.new(0, 0, 0, 0);
+            Size = UDim2.new(1, 0, 1, 0);
+            Visible = false;
+            ZIndex = 2;
+            Parent = TabContainer;
+        });
 
         local LeftSide = Library:Create('ScrollingFrame', {
             BackgroundTransparency = 1;
