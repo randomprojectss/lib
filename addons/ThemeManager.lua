@@ -6,17 +6,17 @@ local ThemeManager = {} do
 
     ThemeManager.Library = nil
     ThemeManager.CurrentThemeIndex = 1  -- Keep track of the current theme index
-    ThemeManager.DefaultTheme = 'Hey'   -- Set the new 'Hey' theme as the default
+    ThemeManager.DefaultTheme = 'Mint'   -- Set the new 'Mint' theme as the default
     ThemeManager.BuiltInThemes = {
-        ['Hey'] 	        = { 1, httpService:JSONDecode('{"FontColor":"c1c1c1","MainColor":"050505","AccentColor":"bd00ff","BackgroundColor":"131313","OutlineColor":"3f3b3b"}') }, -- New theme
-        ['Default'] 	    = { 2, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"323232"}') },
-        ['BBot'] 		    = { 3, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1e1e","AccentColor":"7e48a3","BackgroundColor":"232323","OutlineColor":"141414"}') },
-        ['Fatality']	    = { 4, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}') },
-        ['Jester'] 	        = { 5, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"db4467","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
-        ['Mint'] 		    = { 6, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"3db488","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
+        ['Hey']             = { 1, httpService:JSONDecode('{"FontColor":"c1c1c1","MainColor":"050505","AccentColor":"bd00ff","BackgroundColor":"131313","OutlineColor":"3f3b3b"}') }, -- New theme
+        ['Default']         = { 2, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"323232"}') },
+        ['BBot']            = { 3, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1e1e","AccentColor":"7e48a3","BackgroundColor":"232323","OutlineColor":"141414"}') },
+        ['Fatality']        = { 4, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}') },
+        ['Jester']          = { 5, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"db4467","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
+        ['Mint']            = { 6, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"242424","AccentColor":"3db488","BackgroundColor":"1c1c1c","OutlineColor":"373737"}') },
         ['Tokyo Night']     = { 7, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1c1c1c","AccentColor":"0055ff","BackgroundColor":"141414","OutlineColor":"323232"}') },
-        ['Ubuntu'] 	        = { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"3e3e3e","AccentColor":"e2581e","BackgroundColor":"323232","OutlineColor":"191919"}') },
-        ['Quartz'] 	        = { 9, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
+        ['Ubuntu']          = { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"3e3e3e","AccentColor":"e2581e","BackgroundColor":"323232","OutlineColor":"191919"}') },
+        ['Quartz']          = { 9, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
         ['Clean']           = { 10, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232323","AccentColor":"ffffff","BackgroundColor":"232323","OutlineColor":"232323"}') }, -- New "Clean" theme
     }
 
@@ -125,12 +125,26 @@ local ThemeManager = {} do
             self:ApplyTheme(nextTheme)
         end)
 
-        -- Unload button with debugging
-        groupbox:AddButton('Unload', function()
-            print("Unload button clicked")  -- Debugging output
-            -- Add any unload or cleanup logic here
-            self.Library:Unload()  -- Assuming there is an Unload method in your library
-        end)
+        -- Custom cursor management
+        local cursor = Instance.new("ImageLabel")
+        cursor.Size = UDim2.new(0, 32, 0, 32)  -- Set cursor size
+        cursor.Image = "rbxassetid://872415672"  -- Replace with your custom cursor image ID
+        cursor.Visible = false  -- Initially set the cursor to be invisible
+        cursor.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Parent the cursor to PlayerGui
+
+        -- Function to show/hide the cursor
+        local function ToggleCursorVisibility(show)
+            cursor.Visible = show
+            if show then
+                cursor.Position = UDim2.new(0, mouse.X, 0, mouse.Y)  -- Set cursor position to mouse position
+            end
+        end
+
+        -- Connect the GUI open/close events to toggle cursor visibility
+        -- Example of how to connect it to your GUI events:
+        -- GUIOpened:Connect(function() ToggleCursorVisibility(true) end)
+        -- GUIClose:Connect(function() ToggleCursorVisibility(false) end)
+
     end
 
     function ThemeManager:SetLibrary(lib)
@@ -168,16 +182,10 @@ local ThemeManager = {} do
 
     function ThemeManager:ApplyToTab(tab)
         assert(self.Library, 'Must set ThemeManager.Library first!')
+
         local groupbox = self:CreateGroupBox(tab)
         self:CreateThemeManager(groupbox)
     end
-
-    function ThemeManager:ApplyToGroupbox(groupbox)
-        assert(self.Library, 'Must set ThemeManager.Library first!')
-        self:CreateThemeManager(groupbox)
-    end
-
-    ThemeManager:BuildFolderTree()
 end
 
 return ThemeManager
