@@ -3023,6 +3023,14 @@ function Library:CreateWindow(...)
 });
 
 
+    local MainSectionOuter = Library:Create('Frame', {
+        BackgroundColor3 = Library.BackgroundColor;
+        BorderColor3 = Library.OutlineColor;
+        Position = UDim2.new(0, 8, 0, 25);
+        Size = UDim2.new(1, -16, 1, -33);
+        ZIndex = 1;
+        Parent = Inner;
+    });
 
     Library:AddToRegistry(MainSectionOuter, {
         BackgroundColor3 = 'BackgroundColor';
@@ -3044,92 +3052,90 @@ function Library:CreateWindow(...)
     });
 
 
-    local TabArea = Library:Create('Frame', {
-        BackgroundTransparency = 1;
-        Position = UDim2.new(0, 8, 0, 8);
-        Size = UDim2.new(1, -16, 0, 21);
-        ZIndex = 1;
-        Parent = MainSectionInner;
-    });
+    function Window:AddTab(Name)
+    local Tab = {
+        Groupboxes = {};
+        Tabboxes = {};
+    };
 
-    local TabListLayout = Library:Create('UIListLayout', {
-        Padding = UDim.new(0, Config.TabPadding);
-        FillDirection = Enum.FillDirection.Horizontal;
-        SortOrder = Enum.SortOrder.LayoutOrder;
+    local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16);
+
+    local TabButton = Library:Create('Frame', {
+        BackgroundColor3 = Library.BackgroundColor;
+        BorderColor3 = Library.OutlineColor;
+        Size = UDim2.new(0, TabButtonWidth + 8 + 4, 1, 0);
+        ZIndex = 1;
         Parent = TabArea;
     });
 
-    local TabContainer = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
-        BorderColor3 = Library.OutlineColor;
-        Position = UDim2.new(0, 8, 0, 30);
-        Size = UDim2.new(1, -16, 1, -38);
-        ZIndex = 2;
-        Parent = MainSectionInner;
-    });
-    
-
-    Library:AddToRegistry(TabContainer, {
-        BackgroundColor3 = 'MainColor';
+    Library:AddToRegistry(TabButton, {
+        BackgroundColor3 = 'BackgroundColor';
         BorderColor3 = 'OutlineColor';
     });
 
-    function Window:SetWindowTitle(Title)
-        WindowLabel.Text = Title;
-    end;
+    local TabButtonLabel = Library:CreateLabel({
+        Position = UDim2.new(0, 0, 0, 0);
+        Size = UDim2.new(1, 0, 1, -1);
+        Text = Name;
+        ZIndex = 1;
+        Parent = TabButton;
+    });
 
-    function Window:AddTab(Name)
-        local Tab = {
-            Groupboxes = {};
-            Tabboxes = {};
-        };
+    -- Blocker (Line Above Tab) Creation
+    local Blocker = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderSizePixel = 0;
+        Position = UDim2.new(0, 0, 0, -2); -- Line positioned above the TabButton
+        Size = UDim2.new(1, 0, 0, 2); -- Height of 2 pixels
+        Visible = false; -- Initially invisible
+        ZIndex = 3;
+        Parent = TabButton;
+    });
 
-        local TabButtonWidth = Library:GetTextBounds(Name, Library.Font, 16);
+    Library:AddToRegistry(Blocker, {
+        BackgroundColor3 = 'MainColor';
+    });
 
-        local TabButton = Library:Create('Frame', {
-            BackgroundColor3 = Library.BackgroundColor;
-            BorderColor3 = Library.OutlineColor;
-            Size = UDim2.new(0, TabButtonWidth + 8 + 4, 1, 0);
-            ZIndex = 1;
-            Parent = TabArea;
-        });
+    -- Tab Frame (Content Area)
+    local TabFrame = Library:Create('Frame', {
+        Name = 'TabFrame';
+        BackgroundTransparency = 1;
+        Position = UDim2.new(0, 0, 0, 0);
+        Size = UDim2.new(1, 0, 1, 0);
+        Visible = false; -- Hidden by default
+        ZIndex = 2;
+        Parent = TabContainer;
+    });
 
-        Library:AddToRegistry(TabButton, {
-            BackgroundColor3 = 'BackgroundColor';
-            BorderColor3 = 'OutlineColor';
-        });
+    -- Function to handle tab selection and line visibility
+    function Tab:Select()
+        -- Hide all other tabs and their lines
+        for _, OtherTab in pairs(Window.Tabs) do
+            if OtherTab ~= Tab then
+                OtherTab.Frame.Visible = false;
+                OtherTab.Blocker.Visible = false; -- Hide the line for other tabs
+            end
+        end
 
-        local TabButtonLabel = Library:CreateLabel({
-            Position = UDim2.new(0, 0, 0, 0);
-            Size = UDim2.new(1, 0, 1, -1);
-            Text = Name;
-            ZIndex = 1;
-            Parent = TabButton;
-        });
+        -- Show the current tab and its line
+        TabFrame.Visible = true;
+        Blocker.Visible = true; -- Show the line for the selected tab
+    end
 
-        local Blocker = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderSizePixel = 0;
-            Position = UDim2.new(0, 0, 1, 0);
-            Size = UDim2.new(1, 0, 0, 1);
-            BackgroundTransparency = 1;
-            ZIndex = 3;
-            Parent = TabButton;
-        });
+    -- Add tab to Window.Tabs for management
+    table.insert(Window.Tabs, Tab);
 
-        Library:AddToRegistry(Blocker, {
-            BackgroundColor3 = 'MainColor';
-        });
+    -- Clicking the TabButton selects the tab
+    TabButton.InputBegan:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            Tab:Select();
+        end
+    end);
 
-        local TabFrame = Library:Create('Frame', {
-            Name = 'TabFrame',
-            BackgroundTransparency = 1;
-            Position = UDim2.new(0, 0, 0, 0);
-            Size = UDim2.new(1, 0, 1, 0);
-            Visible = false;
-            ZIndex = 2;
-            Parent = TabContainer;
-        });
+    -- Return the created tab
+    return Tab;
+end
+
 
         local LeftSide = Library:Create('ScrollingFrame', {
             BackgroundTransparency = 1;
