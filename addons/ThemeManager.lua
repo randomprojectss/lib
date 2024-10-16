@@ -124,6 +124,13 @@ local ThemeManager = {} do
             Options.ThemeManager_ThemeList:SetValue(nextTheme)
             self:ApplyTheme(nextTheme)
         end)
+
+        -- Unload button with debugging
+        groupbox:AddButton('Unload', function()
+            print("Unload button clicked")  -- Debugging output
+            -- Add any unload or cleanup logic here
+            self.Library:Unload()  -- Assuming there is an Unload method in your library
+        end)
     end
 
     function ThemeManager:SetLibrary(lib)
