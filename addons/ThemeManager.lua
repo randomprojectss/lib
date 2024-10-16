@@ -1,4 +1,5 @@
 local httpService = game:GetService('HttpService')
+
 local ThemeManager = {} do
     ThemeManager.Folder = 'LinoriaLibSettings'
     -- if not isfolder(ThemeManager.Folder) then makefolder(ThemeManager.Folder) end
@@ -7,7 +8,7 @@ local ThemeManager = {} do
     ThemeManager.CurrentThemeIndex = 1  -- Keep track of the current theme index
     ThemeManager.DefaultTheme = 'Hey'   -- Set the new 'Hey' theme as the default
     ThemeManager.BuiltInThemes = {
-        ['Hey'] 	    = { 1, httpService:JSONDecode('{"FontColor":"c1c1c1","MainColor":"050505","AccentColor":"bd00ff","BackgroundColor":"131313","OutlineColor":"3f3b3b"}') }, -- New theme
+        ['Hey'] 	        = { 1, httpService:JSONDecode('{"FontColor":"c1c1c1","MainColor":"050505","AccentColor":"bd00ff","BackgroundColor":"131313","OutlineColor":"3f3b3b"}') }, -- New theme
         ['Default'] 	    = { 2, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"323232"}') },
         ['BBot'] 		    = { 3, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1e1e","AccentColor":"7e48a3","BackgroundColor":"232323","OutlineColor":"141414"}') },
         ['Fatality']	    = { 4, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1e1842","AccentColor":"c50754","BackgroundColor":"191335","OutlineColor":"3c355d"}') },
@@ -16,6 +17,7 @@ local ThemeManager = {} do
         ['Tokyo Night']     = { 7, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"1c1c1c","AccentColor":"0055ff","BackgroundColor":"141414","OutlineColor":"323232"}') },
         ['Ubuntu'] 	        = { 8, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"3e3e3e","AccentColor":"e2581e","BackgroundColor":"323232","OutlineColor":"191919"}') },
         ['Quartz'] 	        = { 9, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}') },
+        ['Clean']           = { 10, httpService:JSONDecode('{"FontColor":"ffffff","MainColor":"232323","AccentColor":"ffffff","BackgroundColor":"232323","OutlineColor":"232323"}') }, -- New "Clean" theme
     }
 
     function ThemeManager:ApplyTheme(theme)
