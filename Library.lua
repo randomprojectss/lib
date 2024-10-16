@@ -3007,6 +3007,11 @@ function Library:CreateWindow(...)
         Parent = Outer;
     });
 
+    Library:AddToRegistry(Inner, {
+       BackgroundColor3 = Library.MainColor;
+        BorderColor3 = 'AccentColor';
+    });
+
    local WindowLabel = Library:CreateLabel({
     Position = UDim2.new(0.5, 0, 0, 0); -- Set X scale to 0.5 for centering
     Size = UDim2.new(0, 200, 0, 25); -- Set a specific width (e.g., 200) and height (25)
