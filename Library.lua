@@ -3071,10 +3071,7 @@ function Library:CreateWindow(...)
     });
     
 
-    Library:AddToRegistry(TabContainer, {
-        BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'OutlineColor';
-    });
+    
 
     function Window:SetWindowTitle(Title)
         WindowLabel.Text = Title;
