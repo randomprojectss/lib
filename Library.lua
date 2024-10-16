@@ -3146,6 +3146,7 @@ function Window:AddTab(Name)
     });
 
     -- (Additional code for managing tab switching can go here)
+    -- (Additional code for managing tab switching can go here)
 
     -- Return the created Tab for further customizations
    
