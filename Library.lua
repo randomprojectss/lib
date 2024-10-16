@@ -3032,7 +3032,10 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
-    
+    Library:AddToRegistry(MainSectionOuter, {
+        BackgroundColor3 = 'BackgroundColor';
+        BorderColor3 = 'OutlineColor';
+    });
 
     local MainSectionInner = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
@@ -3044,6 +3047,9 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
 
+    Library:AddToRegistry(MainSectionInner, {
+        BackgroundColor3 = 'BackgroundColor';
+    });
 
 
     local TabArea = Library:Create('Frame', {
@@ -3054,7 +3060,13 @@ function Library:CreateWindow(...)
         Parent = MainSectionInner;
     });
 
-    
+    local TabListLayout = Library:Create('UIListLayout', {
+        Padding = UDim.new(0, Config.TabPadding);
+        FillDirection = Enum.FillDirection.Horizontal;
+        SortOrder = Enum.SortOrder.LayoutOrder;
+        Parent = TabArea;
+    });
+
     local TabContainer = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.OutlineColor;
@@ -3065,10 +3077,6 @@ function Library:CreateWindow(...)
     });
     
 
-    Library:AddToRegistry(TabContainer, {
-        BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'OutlineColor';
-    });
 
     function Window:SetWindowTitle(Title)
         WindowLabel.Text = Title;
