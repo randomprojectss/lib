@@ -3043,40 +3043,10 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
 
--- Tab Area Creation
-local TabArea = Library:Create('Frame', {
-    BackgroundTransparency = 1;  -- Ensure transparency
-    Position = UDim2.new(0, 8, 0, 8);
-    Size = UDim2.new(1, -16, 0, 30);  -- Adjusted height for better fit
-    ZIndex = 1;
-    Parent = MainSectionInner;
-});
+-- Add this at the top of your Window:AddTab function
+local ActiveTab = nil -- Variable to store the active tab
 
--- Adjust padding between tabs
-local TabListLayout = Library:Create('UIListLayout', {
-    Padding = UDim.new(0, Config.TabPadding);  -- Adjust padding
-    FillDirection = Enum.FillDirection.Horizontal;
-    SortOrder = Enum.SortOrder.LayoutOrder;
-    Parent = TabArea;
-});
-
--- Adjust Tab Container Size for fitting properly
-local TabContainer = Library:Create('Frame', {
-    BackgroundColor3 = Library.MainColor;  -- Use the main color to match the theme
-    BackgroundTransparency = 1;  -- Make sure it's fully transparent to avoid the white screen
-    BorderColor3 = Library.OutlineColor;
-    Position = UDim2.new(0, 8, 0, 40);  -- Adjusted position
-    Size = UDim2.new(1, -16, 1, -48);  -- Adjusted size for fitting content
-    ZIndex = 2;
-    Parent = MainSectionInner;
-});
-
--- Function to set window title (Unchanged)
-function Window:SetWindowTitle(Title)
-    WindowLabel.Text = Title;
-end;
-
--- Function to add tabs
+-- Add tabs function
 function Window:AddTab(Name)
     local Tab = {
         Groupboxes = {};
@@ -3115,16 +3085,16 @@ function Window:AddTab(Name)
     local Blocker = Library:Create('Frame', {
         BackgroundColor3 = Library.MainColor;
         BorderSizePixel = 0;
-        Position = UDim2.new(0, 0, 1, 0);
-        Size = UDim2.new(1, 0, 0, 1);
-        BackgroundTransparency = 1;  -- Ensure transparency for inactive tabs
+        Position = UDim2.new(0, 0, 1, 0);  -- Positioned at the bottom of the tab button initially
+        Size = UDim2.new(1, 0, 0, 3);  -- Height of 3px for the accent color line
+        BackgroundTransparency = 1;  -- Initially hidden (transparent)
         ZIndex = 3;
         Parent = TabButton;
     });
 
-    -- Add Blocker to registry
+    -- Add Blocker to registry for color updates
     Library:AddToRegistry(Blocker, {
-        BackgroundColor3 = 'MainColor';
+        BackgroundColor3 = 'AccentColor';  -- Accent color for active tabs
     });
 
     -- Create Tab Frame for content
@@ -3139,10 +3109,33 @@ function Window:AddTab(Name)
         Parent = TabContainer;
     });
 
-    -- Add TabFrame to registry for proper color management if needed
+    -- Add TabFrame to registry for proper color management
     Library:AddToRegistry(TabFrame, {
         BackgroundColor3 = 'MainColor';
     });
+
+    -- Tab selection logic
+    TabButton.InputBegan:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            -- Hide the previously active tab
+            if ActiveTab then
+                ActiveTab.Blocker.BackgroundTransparency = 1;  -- Hide the previous active tab's line
+                ActiveTab.TabFrame.Visible = false;  -- Hide the previous tab's frame
+            end
+
+            -- Activate the new tab
+            Blocker.BackgroundTransparency = 0;  -- Show the accent color line
+            TabFrame.Visible = true;  -- Show the tab's content
+            ActiveTab = {
+                Blocker = Blocker,
+                TabFrame = TabFrame
+            };
+        end
+    end);
+
+    -- Return the created Tab for further customizations
+    return Tab;
+end
 
     -- Return the created Tab for further customizations
    
