@@ -3047,9 +3047,6 @@ function Library:CreateWindow(...)
         Parent = MainSectionOuter;
     });
 
-    Library:AddToRegistry(MainSectionInner, {
-        BackgroundColor3 = 'BackgroundColor';
-    });
 
 
     local TabArea = Library:Create('Frame', {
@@ -3077,10 +3074,6 @@ function Library:CreateWindow(...)
     });
     
 
-    Library:AddToRegistry(TabContainer, {
-        BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'OutlineColor';
-    });
 
     function Window:SetWindowTitle(Title)
         WindowLabel.Text = Title;
