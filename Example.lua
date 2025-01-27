@@ -1,4 +1,4 @@
--- New example script written by wally
+-- New example script written by wally and modified by metamethod
 -- You can suggest changes with a pull request or something
 
 local repo = 'https://raw.githubusercontent.com/randomprojectss/lib/refs/heads/main/'
