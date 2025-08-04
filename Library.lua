@@ -911,12 +911,14 @@ do
             end;
 
             PickerFrameOuter.Visible = true;
-            Library.OpenedFrames[PickerFrameOuter] = true;
+            Library.OpenedFrames[PickerFrameOuter] = true
+Library:FadeInBlur();
         end;
 
         function ColorPicker:Hide()
             PickerFrameOuter.Visible = false;
-            Library.OpenedFrames[PickerFrameOuter] = nil;
+            Library.OpenedFrames[PickerFrameOuter] = nil
+if next(Library.OpenedFrames) == nil then Library:FadeOutBlur() end;
         end;
 
         function ColorPicker:SetValue(HSV, Transparency)
