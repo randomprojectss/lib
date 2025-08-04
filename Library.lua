@@ -46,41 +46,6 @@ local Library = {
     ScreenGui = ScreenGui;
 };
 
-
-local TweenService = game:GetService("TweenService")
-local Lighting = game:GetService("Lighting")
-
--- Utility: Create or fetch the blur
-local function getOrCreateBlur()
-    local blur = Lighting:FindFirstChild("MenuBlur")
-    if not blur then
-        blur = Instance.new("BlurEffect")
-        blur.Name = "MenuBlur"
-        blur.Size = 0
-        blur.Parent = Lighting
-    end
-    return blur
-end
-
--- Fade in blur
-function Library:FadeInBlur()
-    local blur = getOrCreateBlur()
-    local tween = TweenService:Create(blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), { Size = 20 })
-    tween:Play()
-end
-
--- Fade out and destroy blur
-function Library:FadeOutBlur()
-    local blur = Lighting:FindFirstChild("MenuBlur")
-    if blur then
-        local tween = TweenService:Create(blur, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), { Size = 0 })
-        tween:Play()
-        tween.Completed:Once(function()
-            blur:Destroy()
-        end)
-    end
-end
-
 local RainbowStep = 0
 local Hue = 0
 
@@ -911,14 +876,12 @@ do
             end;
 
             PickerFrameOuter.Visible = true;
-            Library.OpenedFrames[PickerFrameOuter] = true
-Library:FadeInBlur();
+            Library.OpenedFrames[PickerFrameOuter] = true;
         end;
 
         function ColorPicker:Hide()
             PickerFrameOuter.Visible = false;
-            Library.OpenedFrames[PickerFrameOuter] = nil
-if next(Library.OpenedFrames) == nil then Library:FadeOutBlur() end;
+            Library.OpenedFrames[PickerFrameOuter] = nil;
         end;
 
         function ColorPicker:SetValue(HSV, Transparency)
